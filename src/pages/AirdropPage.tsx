@@ -17,6 +17,7 @@ import {
 import { Link } from 'react-router-dom'
 import Confetti from 'react-confetti'
 import { useWindowSize } from 'react-use'
+import DailySpinner from '../components/DailySpinner'
 
 interface Task {
   id: string
@@ -123,6 +124,8 @@ const AirdropPage = () => {
   const { width, height } = useWindowSize()
   const [showConfetti, setShowConfetti] = useState(false)
   const [completedTaskPoints, setCompletedTaskPoints] = useState(0)
+  const [isSpinnerSpinning, setIsSpinnerSpinning] = useState(false)
+  const [showDailySpinner, setShowDailySpinner] = useState(false)
   
   const [airdropData, setAirdropData] = useState<AirdropData>({
     totalPoints: 0,
@@ -205,6 +208,28 @@ const AirdropPage = () => {
     setTimeout(() => {
       setShowConfetti(false)
     }, 3000)
+  }
+
+  const handleSpinnerReward = (points: number) => {
+    setAirdropData(prev => ({
+      ...prev,
+      totalPoints: prev.totalPoints + points,
+      lastUpdated: new Date().toISOString()
+    }))
+    
+    setCompletedTaskPoints(points)
+    setShowConfetti(true)
+    setTimeout(() => {
+      setShowConfetti(false)
+    }, 3000)
+  }
+
+  const handleSpinStart = () => {
+    setIsSpinnerSpinning(true)
+  }
+
+  const handleSpinComplete = () => {
+    setIsSpinnerSpinning(false)
   }
 
   const resetProgress = () => {
@@ -416,6 +441,40 @@ const AirdropPage = () => {
               <div className="text-white/70 text-sm">Reward</div>
             </motion.div>
           </div>
+        </motion.div>
+
+        {/* Daily Spinner Section */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.6 }}
+          className="text-center mb-12"
+        >
+          <div className="inline-flex items-center gap-2 rounded-full border border-casino-gold/30 px-4 py-2 text-casino-gold bg-casino-gold/10 mb-6">
+            <Star className="w-5 h-5" />
+            <span className="text-sm font-semibold">Daily Bonus</span>
+          </div>
+          
+          <h2 className="text-3xl sm:text-4xl font-black mb-4">
+            Daily Lucky Spin
+          </h2>
+          
+          <p className="text-lg text-white/70 max-w-2xl mx-auto mb-8">
+            Spin the wheel once daily to earn bonus points for your airdrop campaign! 
+            Higher rewards have lower chances - test your luck! 🎰
+          </p>
+
+          <motion.div
+            className="glass rounded-3xl p-8 max-w-2xl mx-auto"
+            whileHover={{ scale: 1.02 }}
+            transition={{ duration: 0.3 }}
+          >
+            <DailySpinner
+              onRewardEarned={handleSpinnerReward}
+              isSpinning={isSpinnerSpinning}
+              onSpinComplete={handleSpinComplete}
+            />
+          </motion.div>
         </motion.div>
 
         {/* Rules Note */}
