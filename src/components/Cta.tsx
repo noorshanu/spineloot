@@ -15,7 +15,7 @@ const Cta = () => {
       <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-casino-gold/10 rounded-full blur-3xl animate-pulse" />
       
       <Container>
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
           {/* Content Side */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
@@ -29,7 +29,7 @@ const Cta = () => {
               <span className="text-sm font-semibold">Ready to Win Big?</span>
             </div>
             
-            <h2 className="text-4xl sm:text-5xl font-black leading-tight">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black leading-tight">
               Your Next{' '}
               <span className="bg-gradient-to-r from-casino-gold via-yellow-400 to-casino-red bg-clip-text text-transparent">
                 Big Win
@@ -37,13 +37,13 @@ const Cta = () => {
               {' '}Awaits!
             </h2>
             
-            <p className="text-xl text-white/80 leading-relaxed">
+            <p className="text-lg sm:text-xl text-white/80 leading-relaxed">
               Join thousands of players already spinning and winning on SpinLoot. 
               Every spin is a chance to hit the jackpot and change your life forever!
             </p>
             
             {/* Feature highlights */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -51,10 +51,10 @@ const Cta = () => {
                 transition={{ delay: 0.2 }}
                 className="flex items-center gap-3 glass rounded-xl p-4 hover:bg-white/10 transition-all"
               >
-                <Zap className="w-6 h-6 text-casino-gold" />
-                <div>
-                  <h4 className="font-bold text-casino-gold">Instant Payouts</h4>
-                  <p className="text-sm text-white/70">Win = Instant SOL</p>
+                <Zap className="w-5 h-5 sm:w-6 sm:h-6 text-casino-gold flex-shrink-0" />
+                <div className="min-w-0">
+                  <h4 className="font-bold text-casino-gold text-sm sm:text-base">Instant Payouts</h4>
+                  <p className="text-xs sm:text-sm text-white/70">Win = Instant SOL</p>
                 </div>
               </motion.div>
               
@@ -65,10 +65,10 @@ const Cta = () => {
                 transition={{ delay: 0.3 }}
                 className="flex items-center gap-3 glass rounded-xl p-4 hover:bg-white/10 transition-all"
               >
-                <Star className="w-6 h-6 text-casino-gold" />
-                <div>
-                  <h4 className="font-bold text-casino-gold">Daily Rewards</h4>
-                  <p className="text-sm text-white/70">Free spins daily</p>
+                <Star className="w-5 h-5 sm:w-6 sm:h-6 text-casino-gold flex-shrink-0" />
+                <div className="min-w-0">
+                  <h4 className="font-bold text-casino-gold text-sm sm:text-base">Daily Rewards</h4>
+                  <p className="text-xs sm:text-sm text-white/70">Free spins daily</p>
                 </div>
               </motion.div>
               
@@ -77,30 +77,31 @@ const Cta = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: 0.4 }}
-                className="flex items-center gap-3 glass rounded-xl p-4 hover:bg-white/10 transition-all"
+                className="flex items-center gap-3 glass rounded-xl p-4 hover:bg-white/10 transition-all sm:col-span-2 lg:col-span-1"
               >
-                <Trophy className="w-6 h-6 text-casino-gold" />
-                <div>
-                  <h4 className="font-bold text-casino-gold">Big Jackpots</h4>
-                  <p className="text-sm text-white/70">Up to 50 SOL</p>
+                <Trophy className="w-5 h-5 sm:w-6 sm:h-6 text-casino-gold flex-shrink-0" />
+                <div className="min-w-0">
+                  <h4 className="font-bold text-casino-gold text-sm sm:text-base">Big Jackpots</h4>
+                  <p className="text-xs sm:text-sm text-white/70">Up to 50 SOL</p>
                 </div>
               </motion.div>
             </div>
             
             {/* CTA Buttons */}
-            <div className="flex flex-wrap gap-4">
+            <div className="flex flex-col sm:flex-row gap-4">
               <motion.div
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
+                className="w-full sm:w-auto"
               >
-                <Button>🎰 Start Spinning Now</Button>
+                <Button className="w-full sm:w-auto text-sm sm:text-base px-6 py-3">🎰 Start Spinning Now</Button>
               </motion.div>
               
               <motion.a
                 href="https://t.me/spineloot"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 px-6 py-3 rounded-full bg-casino-blue/20 hover:bg-casino-blue/30 text-casino-blue hover:text-white transition-all duration-300 border border-casino-blue/30 hover:border-casino-blue/50"
+                className="flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-casino-blue/20 hover:bg-casino-blue/30 text-casino-blue hover:text-white transition-all duration-300 border border-casino-blue/30 hover:border-casino-blue/50 text-sm sm:text-base"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
@@ -126,9 +127,9 @@ const Cta = () => {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            className="relative flex justify-center items-center"
+            className="relative flex justify-center items-center order-first lg:order-last"
           >
-            <div className="relative w-full max-w-lg">
+            <div className="relative w-full max-w-sm sm:max-w-md lg:max-w-lg">
               {/* Glowing background effect */}
               <div className="absolute inset-0 bg-gradient-to-r from-casino-gold/30 via-yellow-400/20 to-casino-red/30 rounded-full blur-3xl animate-pulse" />
               

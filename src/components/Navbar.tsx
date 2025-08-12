@@ -1,32 +1,140 @@
 
 import { Button } from './Button'
 import Container from './Container'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
+import { useState } from 'react'
+import { X, Menu, Home, Gamepad2, Star, Coins, HelpCircle, MessageCircle } from 'lucide-react'
 
 export default function Navbar() {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen)
+  }
+
+  const closeMobileMenu = () => {
+    setIsMobileMenuOpen(false)
+  }
+
+  const navItems = [
+    { href: "#", label: "Home", icon: Home },
+    { href: "#gameplay", label: "Gameplay", icon: Gamepad2 },
+    { href: "#features", label: "Features", icon: Star },
+    { href: "#tokenomics", label: "Tokenomics", icon: Coins },
+    { href: "#faq", label: "FAQ", icon: HelpCircle },
+  ]
+
   return (
-    <motion.nav
-      initial={{ y: -30, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      className="sticky top-0 z-50 border-b border-white/20 bg-casino-bg/80 backdrop-blur-md"
-    >
-      <Container className="flex items-center justify-between h-16">
-        <a href="#" className="flex items-center gap-2 font-black tracking-wide">
-          <img src="/logo.jpg" alt="SpinLoot" className="w-20 h-20 rounded-full" />
-          <span className="text-casino-gold text-xl">SpinLoot</span>
-         
-        </a>
-        <div className="hidden md:flex items-center gap-8 text-white/80">
-          <a href="#gameplay" className="hover:text-white">Gameplay</a>
-          <a href="#features" className="hover:text-white">Features</a>
-          <a href="#tokenomics" className="hover:text-white">Tokenomics</a>
-          <a href="#faq" className="hover:text-white">FAQ</a>
-        </div>
-        <div className="flex items-center gap-3">
-          <Button variant="ghost">Docs</Button>
-          <Button>Launch Bot</Button>
-        </div>
-      </Container>
-    </motion.nav>
+    <>
+      <motion.nav
+        initial={{ y: -30, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        className="sticky top-0 z-50 border-b border-white/20 bg-casino-bg/80 backdrop-blur-md"
+      >
+        <Container className="flex items-center justify-between h-16">
+          <a href="#" className="flex items-center gap-2 font-black tracking-wide">
+            <img src="/logo.jpg" alt="SpinLoot" className="w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 rounded-full" />
+            <span className="text-casino-gold text-lg sm:text-xl">SpinLoot</span>
+          </a>
+          
+          {/* Mobile menu button */}
+          <div className="md:hidden">
+            <button 
+              onClick={toggleMobileMenu}
+              className="text-white/80 hover:text-white transition-colors"
+            >
+              <Menu className="w-6 h-6" />
+            </button>
+          </div>
+          
+          {/* Desktop navigation */}
+          <div className="hidden md:flex items-center gap-8 text-white/80">
+            <a href="#gameplay" className="hover:text-white transition-colors">Gameplay</a>
+            <a href="#features" className="hover:text-white transition-colors">Features</a>
+            <a href="#tokenomics" className="hover:text-white transition-colors">Tokenomics</a>
+            <a href="#faq" className="hover:text-white transition-colors">FAQ</a>
+          </div>
+          
+          {/* Desktop buttons */}
+          <div className="hidden md:flex items-center gap-3">
+            <Button>Launch Bot</Button>
+          </div>
+        </Container>
+      </motion.nav>
+
+      {/* Mobile Sidebar */}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <>
+            {/* Backdrop */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={closeMobileMenu}
+              className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 md:hidden"
+            />
+            
+            {/* Sidebar */}
+            <motion.div
+              initial={{ x: '100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '100%' }}
+              transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+              className="fixed top-0 right-0 h-full w-80 bg-black/95 backdrop-blur-md border-l border-white/20 z-50 md:hidden"
+            >
+              {/* Sidebar Header */}
+              <div className="flex items-center justify-between p-6 border-b border-white/10">
+                <div className="flex items-center gap-3">
+                  <img src="/logo.jpg" alt="SpinLoot" className="w-10 h-10 rounded-full" />
+                  <span className="text-casino-gold font-bold text-lg">SpinLoot</span>
+                </div>
+                <button
+                  onClick={closeMobileMenu}
+                  className="text-white/60 hover:text-white transition-colors"
+                >
+                  <X className="w-6 h-6" />
+                </button>
+              </div>
+
+              {/* Navigation Items */}
+              <div className="p-6 space-y-2">
+                {navItems.map((item, index) => {
+                  const Icon = item.icon
+                  return (
+                    <motion.a
+                      key={item.href}
+                      href={item.href}
+                      onClick={closeMobileMenu}
+                      initial={{ opacity: 0, x: 20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: index * 0.1 }}
+                      className="flex items-center gap-4 p-4 rounded-xl text-white/80 hover:text-white hover:bg-white/10 transition-all duration-300 group"
+                    >
+                      <Icon className="w-5 h-5 text-casino-gold group-hover:scale-110 transition-transform" />
+                      <span className="font-semibold">{item.label}</span>
+                    </motion.a>
+                  )
+                })}
+              </div>
+
+              {/* Sidebar Footer */}
+              <div className="absolute bottom-0 left-0 right-0 p-6 border-t border-white/10">
+                <Button className="w-full mb-4">🎰 Launch Bot</Button>
+                <a
+                  href="https://t.me/spineloot"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-2 w-full px-4 py-3 rounded-xl bg-casino-blue/20 hover:bg-casino-blue/30 text-casino-blue hover:text-white transition-all duration-300 border border-casino-blue/30 hover:border-casino-blue/50"
+                >
+                  <MessageCircle className="w-5 h-5" />
+                  <span className="font-semibold">Join Telegram</span>
+                </a>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+    </>
   )
 }
