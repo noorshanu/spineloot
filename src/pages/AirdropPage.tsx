@@ -15,6 +15,8 @@ import {
   HelpCircle
 } from 'lucide-react'
 import { Link } from 'react-router-dom'
+import Confetti from 'react-confetti'
+import { useWindowSize } from 'react-use'
 
 interface Task {
   id: string
@@ -118,6 +120,10 @@ const defaultTasks: Task[] = [
 ]
 
 const AirdropPage = () => {
+  const { width, height } = useWindowSize()
+  const [showConfetti, setShowConfetti] = useState(false)
+  const [completedTaskPoints, setCompletedTaskPoints] = useState(0)
+  
   const [airdropData, setAirdropData] = useState<AirdropData>({
     totalPoints: 0,
     tasks: defaultTasks,
@@ -188,6 +194,17 @@ const AirdropPage = () => {
         lastUpdated: new Date().toISOString()
       }
     })
+
+    // Get points for the completed task
+    const task = airdropData.tasks.find(t => t.id === taskId)
+    const points = task?.points || 0
+    setCompletedTaskPoints(points)
+
+    // Show confetti celebration
+    setShowConfetti(true)
+    setTimeout(() => {
+      setShowConfetti(false)
+    }, 3000)
   }
 
   const resetProgress = () => {
@@ -209,7 +226,46 @@ const AirdropPage = () => {
   const tier = getTier(airdropData.totalPoints)
 
   return (
-    <div className="min-h-screen text-white bg-black/30 backdrop-blur-sm">
+    <div className="min-h-screen text-white bg-black/30 backdrop-blur-sm  overflow-hidden">
+      {/* Confetti Celebration */}
+      {showConfetti && (
+        <div className="fixed inset-0 z-50 pointer-events-none">
+          <Confetti
+            width={width}
+            height={height}
+            numberOfPieces={200}
+            recycle={false}
+            colors={['#FFD600', '#C9A900', '#FF6B35', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEAA7', '#DDA0DD', '#98D8C8']}
+            gravity={0.3}
+            wind={0.05}
+            initialVelocityX={15}
+            initialVelocityY={30}
+          />
+          <motion.div
+            initial={{ opacity: 0, scale: 0.5 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.5 }}
+            className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center"
+          >
+            <div className="bg-casino-gold/90 backdrop-blur-md rounded-2xl p-8 border-2 border-white/20 shadow-2xl">
+              <motion.div
+                animate={{ 
+                  rotate: [0, -10, 10, -10, 0],
+                  scale: [1, 1.1, 1]
+                }}
+                transition={{ duration: 0.5, repeat: 3 }}
+                className="text-6xl mb-4"
+              >
+                🎉
+              </motion.div>
+              <h2 className="text-3xl font-black text-black mb-2">Congratulations!</h2>
+              <p className="text-lg text-black/80 font-semibold">Task Completed Successfully!</p>
+              <p className="text-sm text-black/60 mt-2">+{completedTaskPoints} Points Earned</p>
+            </div>
+          </motion.div>
+        </div>
+      )}
+      
       {/* Background */}
       <div className="fixed inset-0 bg-grid bg-[length:20px_20px] opacity-10" />
       <div className="absolute top-0 left-1/4 w-96 h-96 bg-casino-red/20 rounded-full blur-3xl" />
