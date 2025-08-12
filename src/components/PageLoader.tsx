@@ -198,14 +198,17 @@ export default function PageLoader({ onComplete }: PageLoaderProps) {
           {showSpinner && (
             <motion.div
               initial={{ opacity: 0, scale: 0 }}
-              animate={{ opacity: 1, scale: 1 }}
-              className="text-3xl"
-              animate={{
-                rotate: 360,
+              animate={{ 
+                opacity: 1, 
+                scale: 1,
+                rotate: 360
               }}
               transition={{
+                opacity: { duration: 0.5 },
+                scale: { duration: 0.5 },
                 rotate: { duration: 2, repeat: Infinity, ease: "linear" }
               }}
+              className="text-3xl"
             >
               🎡
             </motion.div>
