@@ -5,6 +5,7 @@ import { Button } from './Button'
 import { HERO } from '@/data/content'
 import Container from './Container'
 import { StatCard } from './StatCard'
+import { Twitter, MessageCircle } from 'lucide-react'
 
 export default function Hero() {
   return (
@@ -23,6 +24,33 @@ export default function Hero() {
             <div className="mt-8 flex flex-wrap gap-3">
               <Button>{HERO.ctaPrimary}</Button>
               <Button variant="ghost">{HERO.ctaSecondary}</Button>
+            </div>
+            
+            {/* Social Media Icons */}
+            <div className="mt-8 flex items-center gap-4">
+              <motion.a
+                href="https://twitter.com/spineloot"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 text-white/80 hover:text-white transition-all duration-300 border border-white/20 hover:border-white/40"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <Twitter className="w-5 h-5" />
+                <span className="font-semibold">Follow on X</span>
+              </motion.a>
+              
+              <motion.a
+                href="https://t.me/spineloot"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 px-4 py-2 rounded-full bg-casino-blue/20 hover:bg-casino-blue/30 text-casino-blue hover:text-white transition-all duration-300 border border-casino-blue/30 hover:border-casino-blue/50"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <MessageCircle className="w-5 h-5" />
+                <span className="font-semibold">Join Telegram</span>
+              </motion.a>
             </div>
             {/* <div className="mt-10 grid grid-cols-3 gap-4">
               <StatCard kpi="⚡ Instant" label="Payouts" />

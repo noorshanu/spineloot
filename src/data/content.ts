@@ -1,6 +1,6 @@
 
 export const HERO = {
-  title: "SpinLoot ($SPNL)",
+  title: "SpinLoot ($SPIN)",
   punch: "Spin, Win, Repeat. Loot Like a Degen.",
   ctaPrimary: "🎰 Start Spinning",
   ctaSecondary: "📄 Read Whitepaper",
@@ -23,9 +23,9 @@ export const GAMEPLAY = {
   ],
   tiers: [
     { name: "Free Spin", price: "₹0", detail: "Daily low-chance rewards" },
-    { name: "Mini Spin", price: "0.1 SOL / 50 $SPNL", detail: "Entry-level thrills" },
-    { name: "Mega Spin", price: "0.5 SOL / 250 $SPNL", detail: "Bigger rewards, zyada thrill" },
-    { name: "Lootbox Spin", price: "1 SOL / 500 $SPNL", detail: "Mystery multipliers & loot" }
+    { name: "Mini Spin", price: "0.1 SOL / 50 $SPIN", detail: "Entry-level thrills" },
+    { name: "Mega Spin", price: "0.5 SOL / 250 $SPIN", detail: "Bigger rewards, zyada thrill" },
+    { name: "Lootbox Spin", price: "1 SOL / 500 $SPIN", detail: "Mystery multipliers & loot" }
   ]
 }
 

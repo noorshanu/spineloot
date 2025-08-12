@@ -8,6 +8,7 @@ import Leaderboard from './components/Leaderboard'
 import FAQ from './components/FAQ'
 import Footer from './components/Footer'
 import Aboutus from './components/Aboutus'
+import Cta from './components/Cta'
 
 export function App() {
   return (
@@ -18,7 +19,8 @@ export function App() {
       <Aboutus />
       {/* <Gameplay /> */}
       <Tokenomics />
-      <Leaderboard />
+      <Cta />
+      {/* <Leaderboard /> */}
       <FAQ />
       <Footer />
     </div>

@@ -34,7 +34,7 @@ const Aboutus = () => {
             
             <p className="text-lg text-white/80 leading-relaxed">
               SpinLoot is a Telegram-based spinning-style crypto betting game powered by Solana. 
-              Players spin for prizes — including $SPNL tokens, SOL, NFTs, and jackpot loot boxes — 
+              Players spin for prizes — including $SPIN tokens, SOL, NFTs, and jackpot loot boxes — 
               in a provably fair, addictive, and memeable format.
             </p>
             
