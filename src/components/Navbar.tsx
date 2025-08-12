@@ -3,7 +3,8 @@ import { Button } from './Button'
 import Container from './Container'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useState } from 'react'
-import { X, Menu, Home, Gamepad2, Star, Coins, HelpCircle, MessageCircle } from 'lucide-react'
+import { X, Menu, Home, Gamepad2, Star, Coins, HelpCircle, MessageCircle, Trophy } from 'lucide-react'
+import { Link } from 'react-router-dom'
 
 export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
@@ -17,10 +18,11 @@ export default function Navbar() {
   }
 
   const navItems = [
-    { href: "#", label: "Home", icon: Home },
+    { href: "/", label: "Home", icon: Home },
     { href: "#gameplay", label: "Gameplay", icon: Gamepad2 },
     { href: "#features", label: "Features", icon: Star },
     { href: "#tokenomics", label: "Tokenomics", icon: Coins },
+    { href: "/airdrop", label: "Airdrop", icon: Trophy },
     { href: "#faq", label: "FAQ", icon: HelpCircle },
   ]
 
@@ -32,10 +34,10 @@ export default function Navbar() {
         className="sticky top-0 z-50 border-b border-white/20 bg-casino-bg/80 backdrop-blur-md"
       >
         <Container className="flex items-center justify-between h-16">
-          <a href="#" className="flex items-center gap-2 font-black tracking-wide">
+          <Link to="/" className="flex items-center gap-2 font-black tracking-wide">
             <img src="/logo.jpg" alt="SpinLoot" className="w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 rounded-full" />
             <span className="text-casino-gold text-lg sm:text-xl">SpinLoot</span>
-          </a>
+          </Link>
           
           {/* Mobile menu button */}
           <div className="md:hidden">
@@ -52,6 +54,7 @@ export default function Navbar() {
             <a href="#gameplay" className="hover:text-white transition-colors">Gameplay</a>
             <a href="#features" className="hover:text-white transition-colors">Features</a>
             <a href="#tokenomics" className="hover:text-white transition-colors">Tokenomics</a>
+            <Link to="/airdrop" className="hover:text-white transition-colors">Airdrop</Link>
             <a href="#faq" className="hover:text-white transition-colors">FAQ</a>
           </div>
           
@@ -101,20 +104,42 @@ export default function Navbar() {
               <div className="p-6 space-y-2">
                 {navItems.map((item, index) => {
                   const Icon = item.icon
-                  return (
-                    <motion.a
-                      key={item.href}
-                      href={item.href}
-                      onClick={closeMobileMenu}
-                      initial={{ opacity: 0, x: 20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: index * 0.1 }}
-                      className="flex items-center gap-4 p-4 rounded-xl text-white/80 hover:text-white hover:bg-white/10 transition-all duration-300 group"
-                    >
-                      <Icon className="w-5 h-5 text-casino-gold group-hover:scale-110 transition-transform" />
-                      <span className="font-semibold">{item.label}</span>
-                    </motion.a>
-                  )
+                  const isExternal = item.href.startsWith('#')
+                  
+                  if (isExternal) {
+                    return (
+                      <motion.a
+                        key={item.href}
+                        href={item.href}
+                        onClick={closeMobileMenu}
+                        initial={{ opacity: 0, x: 20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: index * 0.1 }}
+                        className="flex items-center gap-4 p-4 rounded-xl text-white/80 hover:text-white hover:bg-white/10 transition-all duration-300 group"
+                      >
+                        <Icon className="w-5 h-5 text-casino-gold group-hover:scale-110 transition-transform" />
+                        <span className="font-semibold">{item.label}</span>
+                      </motion.a>
+                    )
+                  } else {
+                    return (
+                      <motion.div
+                        key={item.href}
+                        initial={{ opacity: 0, x: 20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: index * 0.1 }}
+                      >
+                        <Link
+                          to={item.href}
+                          onClick={closeMobileMenu}
+                          className="flex items-center gap-4 p-4 rounded-xl text-white/80 hover:text-white hover:bg-white/10 transition-all duration-300 group"
+                        >
+                          <Icon className="w-5 h-5 text-casino-gold group-hover:scale-110 transition-transform" />
+                          <span className="font-semibold">{item.label}</span>
+                        </Link>
+                      </motion.div>
+                    )
+                  }
                 })}
               </div>
 
