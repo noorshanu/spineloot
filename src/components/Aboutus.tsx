@@ -39,7 +39,7 @@ const Aboutus = () => {
             </p>
             
             <p className="text-lg text-white/80 leading-relaxed">
-              Think "Web3 spin casino" with instant payouts, social leaderboards, and degenerate fun. 
+              Think "Web3 spin game" with instant payouts, social leaderboards, and degenerate fun. 
               Every spin is a chance to win big while building the most entertaining gaming community in crypto.
             </p>
             
