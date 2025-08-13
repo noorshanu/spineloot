@@ -63,7 +63,7 @@ const defaultTasks: Task[] = [
     completions: 0,
     type: 'once',
     action: 'Like & RT',
-    link: 'https://twitter.com/Spin_loot/status/123456789',
+    link: 'https://x.com/spin_loot/status/1954819766990016658?s=61',
     actionClicked: false
   },
   {
@@ -76,7 +76,7 @@ const defaultTasks: Task[] = [
     completions: 0,
     type: 'once',
     action: 'Comment',
-    link: 'https://twitter.com/Spin_loot/status/123456789',
+    link: 'https://x.com/spin_loot/status/1955511995471655025?s=61',
     actionClicked: false
   },
   {
@@ -89,7 +89,7 @@ const defaultTasks: Task[] = [
     completions: 0,
     type: 'daily',
     action: 'Quote Tweet',
-    link: 'https://twitter.com/spineloot/status/123456789',
+    link: 'https://x.com/spin_loot/status/1955293428092162185?s=61',
     actionClicked: false
   },
   {

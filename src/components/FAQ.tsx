@@ -123,10 +123,10 @@ export default function FAQ() {
           <div className="glass rounded-2xl p-8 max-w-2xl mx-auto">
             <h3 className="text-2xl font-bold mb-4">Still have questions?</h3>
             <p className="text-white/70 mb-6">
-              Join our Telegram community and get instant answers from our team and community!
+              Join our X community and get instant answers from our team and community!
             </p>
             <motion.a
-              href="https://t.me/spineloot"
+              href="https://twitter.com/Spin_loot"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-casino-blue/20 hover:bg-casino-blue/30 text-casino-blue hover:text-white transition-all duration-300 border border-casino-blue/30 hover:border-casino-blue/50"
@@ -134,7 +134,7 @@ export default function FAQ() {
               whileTap={{ scale: 0.95 }}
             >
               <MessageCircle className="w-5 h-5" />
-              <span className="font-semibold">Join Telegram Community</span>
+              <span className="font-semibold">Join X Community</span>
             </motion.a>
           </div>
         </motion.div>
