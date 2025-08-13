@@ -50,7 +50,7 @@ const defaultTasks: Task[] = [
     completions: 0,
     type: 'once',
     action: 'Follow',
-    link: 'https://twitter.com/spineloot',
+    link: 'https://twitter.com/Spin_loot',
     actionClicked: false
   },
   {
@@ -63,7 +63,7 @@ const defaultTasks: Task[] = [
     completions: 0,
     type: 'once',
     action: 'Like & RT',
-    link: 'https://twitter.com/spineloot/status/123456789',
+    link: 'https://twitter.com/Spin_loot/status/123456789',
     actionClicked: false
   },
   {
@@ -76,7 +76,7 @@ const defaultTasks: Task[] = [
     completions: 0,
     type: 'once',
     action: 'Comment',
-    link: 'https://twitter.com/spineloot/status/123456789',
+    link: 'https://twitter.com/Spin_loot/status/123456789',
     actionClicked: false
   },
   {
@@ -102,7 +102,7 @@ const defaultTasks: Task[] = [
     completions: 0,
     type: 'daily',
     action: 'Tweet',
-    link: 'https://twitter.com/intent/tweet?text=🎰 Excited about @SpinLoot! The future of Web3 gaming is here! #SpinLoot',
+    link: 'https://twitter.com/intent/tweet?text=🎰 Excited about @Spin_loot! The future of Web3 gaming is here! #SpinLoot',
     actionClicked: false
   },
   {
@@ -115,7 +115,7 @@ const defaultTasks: Task[] = [
     completions: 0,
     type: 'limited',
     action: 'Join Space',
-    link: 'https://twitter.com/spineloot',
+    link: 'https://twitter.com/Spin_loot',
     actionClicked: false
   }
 ]
@@ -363,7 +363,7 @@ const AirdropPage = () => {
           </h1>
           
           <p className="text-xl text-white/70 max-w-3xl mx-auto mb-8">
-            Complete social tasks to earn points and qualify for $SPNL airdrop rewards. 
+            Complete social tasks to earn points and qualify for $SPIN airdrop rewards. 
             Base tier requires 30+ points, Creator tier requires 60+ points.
           </p>
 
@@ -674,7 +674,7 @@ const AirdropPage = () => {
                       <div className="text-sm text-white/70">60+ points</div>
                     </div>
                     <div className="text-right">
-                      <div className="font-bold">30M $SPNL Raffle</div>
+                      <div className="font-bold">30M $SPIN Raffle</div>
                     </div>
                   </div>
                 </div>
@@ -793,7 +793,7 @@ const AirdropPage = () => {
 
           <div className="border-t border-white/10 mt-8 pt-8 text-center">
             <p className="text-white/50 text-sm">
-              © 2024 SpinLoot. All rights reserved. Built on Solana.
+              © 2025 SpinLoot. All rights reserved. Built on Solana.
             </p>
           </div>
         </div>
