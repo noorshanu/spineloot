@@ -147,7 +147,7 @@ export default function Navbar() {
               <div className="absolute bottom-0 left-0 right-0 p-6 border-t border-white/10">
                 <Button className="w-full mb-4">🎰 Launch Bot</Button>
                 <a
-                  href="https://t.me/spineloot"
+                  href="https://t.me/Spin_loot"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center justify-center gap-2 w-full px-4 py-3 rounded-xl bg-casino-blue/20 hover:bg-casino-blue/30 text-casino-blue hover:text-white transition-all duration-300 border border-casino-blue/30 hover:border-casino-blue/50"

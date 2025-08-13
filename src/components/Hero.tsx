@@ -29,7 +29,7 @@ export default function Hero() {
             {/* Social Media Icons */}
             <div className="mt-8 flex items-center gap-4">
               <motion.a
-                href="https://twitter.com/spineloot"
+                href="https://twitter.com/Spin_loot"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 text-white/80 hover:text-white transition-all duration-300 border border-white/20 hover:border-white/40"
@@ -41,7 +41,7 @@ export default function Hero() {
               </motion.a>
               
               <motion.a
-                href="https://t.me/spineloot"
+                href="https://t.me/Spin_loot"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 px-4 py-2 rounded-full bg-casino-blue/20 hover:bg-casino-blue/30 text-casino-blue hover:text-white transition-all duration-300 border border-casino-blue/30 hover:border-casino-blue/50"

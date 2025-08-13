@@ -98,7 +98,7 @@ const Cta = () => {
               </motion.div>
               
               <motion.a
-                href="https://t.me/spineloot"
+                href="https://t.me/Spin_loot"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-casino-blue/20 hover:bg-casino-blue/30 text-casino-blue hover:text-white transition-all duration-300 border border-casino-blue/30 hover:border-casino-blue/50 text-sm sm:text-base"

@@ -164,7 +164,7 @@ export default function PageLoader({ onComplete }: PageLoaderProps) {
           transition={{ duration: 0.8, delay: 0.2 }}
           className="text-xl text-white/70 mb-8"
         >
-          Loading your casino experience...
+          Loading your SpinLoot experience...
         </motion.p>
 
         {/* Progress Bar */}
