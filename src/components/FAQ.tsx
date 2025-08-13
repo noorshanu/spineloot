@@ -22,11 +22,11 @@ const QA = [
     a: "Spins, loot store, staking (revenue share), governance votes, and rewards. Strong token utility!" 
   },
   { 
-    q: "What are the minimum bets?", 
+    q: "What are the minimum spins?", 
     a: "Free spin = $0, Mini spin = 0.1 SOL / 50 $SPIN, Mega spin = 0.5 SOL / 250 $SPIN, Lootbox = 1 SOL / 500 $SPIN." 
   },
   { 
-    q: "How big can the jackpot get?", 
+    q: "How big can the jackpot be?", 
     a: "Jackpot is dynamic - builds from community spins. Current record: 50 SOL! 🎉" 
   },
   { 
