@@ -2,31 +2,32 @@ import React from 'react'
 import { motion } from 'framer-motion'
 import { Twitter, ExternalLink } from 'lucide-react'
 
-const Postersection = () => {
-  const posters = [
+interface Poster {
+  id: number
+  title: string
+  xLink: string
+  image: string
+}
+
+const Postersection: React.FC = () => {
+  const posters: Poster[] = [
     {
       id: 1,
       title: "SpinLoot X MoonFuel",
-      description: "The most addictive Web3 spin-to-win platform powered by Solana. Join thousands of players spinning for massive rewards!",
       xLink: "https://x.com/Spin_Loot/status/1955511995471655025",
-      image: "/img1.jpeg",
-      stats: "10K+ Players"
+      image: "/img1.jpeg"
     },
     {
       id: 2,
       title: "SpinLoot X Zerone", 
-      description: "Win $SPNL tokens, SOL, rare NFTs, and jackpot loot boxes. Every spin could be your next big win!",
       xLink: "https://x.com/Spin_Loot/status/1954819766990016658",
-      image: "/img2.jpeg",
-      stats: "$500K+ Prizes"
+      image: "/img2.jpeg"
     },
     {
       id: 3,
       title: "SpinLoot X KajLabs",
-      description: "Built on Solana with transparent smart contracts. Fair gaming with instant payouts and zero gas fees!",
       xLink: "https://x.com/Spin_Loot/status/1955293428092162185", 
-      image: "/img3.jpeg",
-      stats: "100% Fair"
+      image: "/img3.jpeg"
     }
   ]
 
@@ -69,7 +70,7 @@ const Postersection = () => {
           className="text-center mb-16"
         >
           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white mb-6">
-       <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FFD600] to-[#C9A900]">Our</span>       Investor
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FFD600] to-[#C9A900]">Our</span> Investor
           </h2>
           <p className="text-xl text-white/80 max-w-3xl mx-auto mb-12">
             Discover why top investors are backing SpinLoot's revolutionary spin-to-win platform
@@ -78,7 +79,7 @@ const Postersection = () => {
 
         {/* Posters Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {posters.map((poster, index) => (
+          {posters.map((poster: Poster, index: number) => (
             <motion.div
               key={poster.id}
               initial={{ opacity: 0, y: 50, scale: 0.9 }}
@@ -97,34 +98,34 @@ const Postersection = () => {
               className="group relative"
             >
               {/* Poster Card */}
-              <a href={poster.xLink} target="_blank" rel="noopener noreferrer" className="relative bg-black/60 backdrop-blur-md rounded-2xl p-2 border border-white/10 hover:border-yellow-400/50 transition-all duration-500 overflow-hidden">
+              <a href={poster.xLink} target="_blank" rel="noopener noreferrer" className="block relative bg-black/40 backdrop-blur-md rounded-2xl p-4 border border-white/10 hover:border-yellow-400/50 transition-all duration-500 overflow-hidden">
                 
                 {/* Glow Effect */}
-                <div className="absolute inset-0 bg-gradient-to-br from-yellow-400/10 via-transparent to-casino-blue/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <div className="absolute inset-0 bg-gradient-to-br from-yellow-400/5 via-transparent to-casino-blue/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                 
                 {/* Poster Image */}
-                <div className="relative mb-6 overflow-hidden rounded-xl">
+                <div className="relative mb-4 overflow-hidden rounded-xl">
                   <motion.div
                     whileHover={{ scale: 1.05 }}
                     transition={{ duration: 0.3 }}
-                    className="aspect-[4/5] bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl flex items-center justify-center"
+                    className=" rounded-xl overflow-hidden"
                   >
-                    <div className="text-center">
-                  <img src={poster.image} alt={poster.title} className="w-full h-full object-cover rounded-xl" />
-                      <p className="text-white/60 text-sm"> {poster.title}</p>
-                    </div>
+                    <img 
+                      src={poster.image} 
+                      alt={poster.title} 
+                      className="  rounded-xl group-hover:scale-110 transition-transform duration-500" 
+                    />
+                    
+                    {/* Overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                   </motion.div>
-                  
-                  {/* Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 </div>
 
-                {/* Content */}
-                <div className="relative z-10">
-          
-
-                  {/* X Link Button */}
-          
+                {/* Title */}
+                <div className="relative z-10 text-center">
+                  <h3 className="text-white text-lg font-semibold group-hover:text-yellow-400 transition-colors duration-300">
+                    {poster.title}
+                  </h3>
                 </div>
 
                 {/* Decorative Elements */}
