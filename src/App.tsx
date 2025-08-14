@@ -11,6 +11,7 @@ import FAQ from './components/FAQ'
 import Footer from './components/Footer'
 import Aboutus from './components/Aboutus'
 import Cta from './components/Cta'
+import Postersection from './components/Postersection'
 import AirdropPage from './pages/AirdropPage'
 import PageLoader from './components/PageLoader'
 
@@ -21,6 +22,7 @@ function HomePage() {
       <Hero />
       <Features />
       <Aboutus />
+      <Postersection />
       {/* <Gameplay /> */}
       <Tokenomics />
       <Cta />
