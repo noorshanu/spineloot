@@ -8,7 +8,7 @@ export default function Footer() {
         <div className="text-white/60">© 2025 SpinLoot ($SPIN). All rights reserved.</div>
         <div className="flex items-center gap-4 text-white/80">
           <a href="https://twitter.com/Spin_loot">Twitter</a>
-          <a href="https://t.me/Spin_loot">Telegram</a>
+          {/* <a href="https://t.me/Spin_loot">Telegram</a> */}
           <a href="https://docs.spinloot.com">Docs</a>
         </div>
       </Container>

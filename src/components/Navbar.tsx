@@ -3,11 +3,12 @@ import { Button } from './Button'
 import Container from './Container'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useState } from 'react'
-import { X, Menu, Home, Gamepad2, Star, Coins, HelpCircle, MessageCircle, Trophy } from 'lucide-react'
+import { X, Menu, Home, Gamepad2, Star, Coins, HelpCircle, MessageCircle, Trophy, Sparkles, Twitter } from 'lucide-react'
 import { Link } from 'react-router-dom'
 
 export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [showModal, setShowModal] = useState(false)
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen)
@@ -38,7 +39,6 @@ export default function Navbar() {
             <img src="/logo.jpg" alt="SpinLoot" className="w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 rounded-full" />
             <span className="text-casino-gold text-lg sm:text-xl">SpinLoot</span>
           </Link>
-          
           {/* Mobile menu button */}
           <div className="md:hidden">
             <button 
@@ -48,7 +48,6 @@ export default function Navbar() {
               <Menu className="w-6 h-6" />
             </button>
           </div>
-          
           {/* Desktop navigation */}
           <div className="hidden md:flex items-center gap-8 text-white/80">
             <a href="#gameplay" className="hover:text-white transition-colors">Gameplay</a>
@@ -57,10 +56,9 @@ export default function Navbar() {
             <Link to="/airdrop" className="hover:text-white transition-colors">Airdrop</Link>
             <a href="#faq" className="hover:text-white transition-colors">FAQ</a>
           </div>
-          
           {/* Desktop buttons */}
           <div className="hidden md:flex items-center gap-3">
-            <Button>Launch Bot</Button>
+            <Button onClick={() => setShowModal(true)}>Launch Bot</Button>
           </div>
         </Container>
       </motion.nav>
@@ -77,7 +75,6 @@ export default function Navbar() {
               onClick={closeMobileMenu}
               className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 md:hidden"
             />
-            
             {/* Sidebar */}
             <motion.div
               initial={{ x: '100%' }}
@@ -99,13 +96,11 @@ export default function Navbar() {
                   <X className="w-6 h-6" />
                 </button>
               </div>
-
               {/* Navigation Items */}
               <div className="p-6 space-y-2">
                 {navItems.map((item, index) => {
                   const Icon = item.icon
                   const isExternal = item.href.startsWith('#')
-                  
                   if (isExternal) {
                     return (
                       <motion.a
@@ -142,22 +137,68 @@ export default function Navbar() {
                   }
                 })}
               </div>
-
               {/* Sidebar Footer */}
               <div className="absolute bottom-0 left-0 right-0 p-6 border-t border-white/10">
-                <Button className="w-full mb-4">🎰 Launch Bot</Button>
+                <Button className="w-full mb-4" onClick={() => setShowModal(true)}>🎰 Launch Bot</Button>
                 <a
-                  href="https://t.me/Spin_loot"
+                  href="https://twitter.com/Spin_loot"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center justify-center gap-2 w-full px-4 py-3 rounded-xl bg-casino-blue/20 hover:bg-casino-blue/30 text-casino-blue hover:text-white transition-all duration-300 border border-casino-blue/30 hover:border-casino-blue/50"
                 >
                   <MessageCircle className="w-5 h-5" />
-                  <span className="font-semibold">Join Telegram</span>
+                  <span className="font-semibold">Join X</span>
                 </a>
               </div>
             </motion.div>
           </>
+        )}
+      </AnimatePresence>
+
+      {/* Animated Modal for Launch Bot */}
+      <AnimatePresence>
+        {showModal && (
+          <motion.div
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <motion.div
+              initial={{ scale: 0.7, opacity: 0, rotate: -10 }}
+              animate={{ scale: 1, opacity: 1, rotate: 0 }}
+              exit={{ scale: 0.7, opacity: 0, rotate: 10 }}
+              transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+              className="relative bg-gradient-to-br from-[#1a1a2e] via-[#23234d] to-[#111] border-4 border-yellow-400/40 rounded-3xl shadow-2xl p-8 w-[90vw] max-w-md flex flex-col items-center"
+            >
+              <button
+                className="absolute top-3 right-3 text-yellow-400 hover:text-yellow-300 transition-colors text-2xl focus:outline-none"
+                onClick={() => setShowModal(false)}
+                aria-label="Close"
+              >
+                <X />
+              </button>
+              <motion.div
+                initial={{ scale: 0.8, rotate: -10 }}
+                animate={{ scale: [1, 1.1, 1], rotate: [0, 5, -5, 0] }}
+                transition={{ repeat: Infinity, duration: 2, ease: 'easeInOut' }}
+                className="mb-4"
+              >
+                <Sparkles className="w-16 h-16 text-yellow-400 drop-shadow-glow animate-pulse" />
+              </motion.div>
+              <h2 className="text-3xl font-extrabold text-yellow-400 mb-2 text-center tracking-wide">Bot Launching Soon!</h2>
+              <p className="text-white text-lg text-center mb-6">Our Telegram bot is coming soon.<br/>Follow us on Twitter for updates and thank you for your support!</p>
+              <a
+                href="https://x.com/Spin_Loot"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-6 py-2 rounded-full bg-gradient-to-b from-[#FFD600] to-[#C9A900] text-black font-bold text-lg shadow hover:from-[#C9A900] hover:to-[#FFD600] transition-all duration-300"
+              >
+                <Twitter className="w-5 h-5" />
+                @Spin_Loot
+              </a>
+            </motion.div>
+          </motion.div>
         )}
       </AnimatePresence>
     </>

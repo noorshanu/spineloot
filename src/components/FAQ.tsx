@@ -129,7 +129,7 @@ export default function FAQ() {
               href="https://twitter.com/Spin_loot"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-casino-blue/20 hover:bg-casino-blue/30 text-casino-blue hover:text-white transition-all duration-300 border border-casino-blue/30 hover:border-casino-blue/50"
+              className= "  z-10 inline-flex items-center gap-2 px-6 py-3 rounded-full bg-casino-blue/20 hover:bg-casino-blue/30 text-casino-blue hover:text-white transition-all duration-300 border border-casino-blue/30 hover:border-casino-blue/50"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >

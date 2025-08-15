@@ -88,16 +88,16 @@ const Cta = () => {
             </div>
             
             {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4">
+            <div className="flex flex-col sm:flex-row gap-4 w-full justify-center items-center ">
               <motion.div
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="w-full sm:w-auto"
+                className="w-full z-10 flex justify-center items-center "
               >
-                <Button className="w-full sm:w-auto text-sm sm:text-base px-6 py-3">🎰 Start Spinning Now</Button>
+                <Button href='/airdrop' className="w-full text-center  text-sm sm:text-base px-6 py-3">🎰 Start Spinning Now</Button>
               </motion.div>
               
-              <motion.a
+              {/* <motion.a
                 href="https://twitter.com/Spin_loot"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -107,7 +107,7 @@ const Cta = () => {
               >
                 <span className="font-semibold">Join Community</span>
                 <ArrowRight className="w-4 h-4" />
-              </motion.a>
+              </motion.a> */}
             </div>
             
             {/* Social proof */}

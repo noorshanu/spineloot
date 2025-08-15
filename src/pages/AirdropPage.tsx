@@ -682,14 +682,16 @@ const AirdropPage = () => {
             </div>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <motion.button 
+              <motion.a href='https://twitter.com/Spin_loot' 
+                target='_blank'
+                rel='noopener noreferrer'
                 className="w-full sm:w-auto text-lg px-8 py-4 px-10 rounded-full bg-gradient-to-b from-[#FFD600] to-[#C9A900] shadow-lg shadow-black/40 text-black font-bold border border-yellow-400 py-2 text-base uppercase hover:translate-y-[-1px] transition-all"
                 whileHover={{ scale: 1.05, y: -3 }}
                 whileTap={{ scale: 0.95 }}
               >
                 🎰 Join SpinLoot
-              </motion.button>
-              <motion.button
+              </motion.a>
+              {/* <motion.button
                 onClick={resetProgress}
                 className="flex items-center gap-2 px-8 py-4 rounded-full bg-white/10 hover:bg-white/20 text-white/80 hover:text-white transition-all duration-300 border border-white/20 hover:border-white/40"
                 whileHover={{ scale: 1.05, y: -2 }}
@@ -697,7 +699,7 @@ const AirdropPage = () => {
               >
                 <RefreshCw className="w-5 h-5" />
                 <span className="font-semibold">Reset Progress</span>
-              </motion.button>
+              </motion.button> */}
             </div>
           </div>
         </motion.div>
@@ -719,7 +721,7 @@ const AirdropPage = () => {
               </p>
               <div className="flex gap-4">
                 <motion.a
-                  href="https://twitter.com/spineloot"
+                  href="https://twitter.com/Spin_loot"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="p-2 rounded-lg bg-white/10 hover:bg-white/20 text-white/80 hover:text-white transition-all duration-300"
@@ -728,16 +730,7 @@ const AirdropPage = () => {
                 >
                   <Twitter className="w-5 h-5" />
                 </motion.a>
-                <motion.a
-                  href="https://t.me/spineloot"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="p-2 rounded-lg bg-white/10 hover:bg-white/20 text-white/80 hover:text-white transition-all duration-300"
-                  whileHover={{ scale: 1.1, rotate: 5 }}
-                  whileTap={{ scale: 0.9 }}
-                >
-                  <MessageCircle className="w-5 h-5" />
-                </motion.a>
+            
               </div>
             </div>
 
@@ -777,13 +770,9 @@ const AirdropPage = () => {
                     FAQ
                   </a>
                 </li>
+             
                 <li>
-                  <a href="https://t.me/spineloot" target="_blank" rel="noopener noreferrer" className="text-white/70 hover:text-white transition-colors duration-300">
-                    Telegram
-                  </a>
-                </li>
-                <li>
-                  <a href="https://twitter.com/spineloot" target="_blank" rel="noopener noreferrer" className="text-white/70 hover:text-white transition-colors duration-300">
+                  <a href="https://twitter.com/Spin_loot" target="_blank" rel="noopener noreferrer" className="text-white/70 hover:text-white transition-colors duration-300">
                     Twitter
                   </a>
                 </li>

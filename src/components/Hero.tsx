@@ -26,7 +26,7 @@ export default function Hero() {
             </h1>
             <p className="mt-4 text-lg text-white/80">{HERO.punch}</p>
             <div className="mt-8 flex flex-wrap gap-3">
-              <Button>{HERO.ctaPrimary}</Button>
+              <Button href='/airdrop'>{HERO.ctaPrimary}</Button>
             </div>
 
             {/* Social Media Icons */}
