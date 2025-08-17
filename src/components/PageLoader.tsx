@@ -51,7 +51,7 @@ export default function PageLoader({ onComplete }: PageLoaderProps) {
           }}
         >
           <img 
-            src="/casino.png" 
+            src="/bot-hero.png" 
             alt="Casino" 
             className="w-32 h-32 opacity-20 blur-sm"
           />
@@ -141,7 +141,7 @@ export default function PageLoader({ onComplete }: PageLoaderProps) {
           }}
         >
           <img 
-            src="/casino.png" 
+            src="/bot-hero.png" 
             alt="Casino" 
             className="w-24 h-24 mx-auto drop-shadow-2xl"
           />

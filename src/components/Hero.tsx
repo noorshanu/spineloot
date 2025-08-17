@@ -70,7 +70,7 @@ export default function Hero() {
             <div className="aspect-square w-full max-w-[520px] mx-auto glass rounded-3xl p-6 shadow-glow relative">
               <Wheel />
               <img
-                src="/casino.png"
+                src="/bot-hero.png"
                 alt="SpinLoot"
                 className="absolute top-4 sm:top-24 left-8 sm:left-28 w-[300px] right-0 animate-spin-slow"
               />
