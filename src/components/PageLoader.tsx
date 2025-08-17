@@ -88,7 +88,7 @@ export default function PageLoader({ onComplete }: PageLoaderProps) {
             delay: 0.5
           }}
         >
-          🃏
+          $$$
         </motion.div>
 
         <motion.div
@@ -105,7 +105,7 @@ export default function PageLoader({ onComplete }: PageLoaderProps) {
             delay: 1
           }}
         >
-          🎲
+     🤖
         </motion.div>
 
         <motion.div
@@ -221,7 +221,7 @@ export default function PageLoader({ onComplete }: PageLoaderProps) {
               animate={{ opacity: 1, scale: 1 }}
               className="flex gap-1"
             >
-              {['🃏', '🃏', '🃏'].map((card, index) => (
+              {['$$$', '$$$', '$$$'].map((card, index) => (
                 <motion.div
                   key={index}
                   animate={{
