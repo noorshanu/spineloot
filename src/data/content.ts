@@ -2,7 +2,7 @@
 export const HERO = {
   title: "SpinLoot ($SPIN)",
   punch: "Spin, Win, Repeat. Loot Like a Degen.",
-  ctaPrimary: "🎰 Start Spinning",
+  ctaPrimary: " Start Spinning",
   ctaSecondary: "📄 Read Whitepaper",
 }
 
