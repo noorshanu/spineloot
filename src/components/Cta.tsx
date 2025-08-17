@@ -94,7 +94,7 @@ const Cta = () => {
                 whileTap={{ scale: 0.95 }}
                 className="w-full z-10 flex justify-center items-center "
               >
-                <Button href='/airdrop' className="w-full text-center  text-sm sm:text-base px-6 py-3">🎰 Start Spinning Now</Button>
+                <Button href='/airdrop' className="w-full text-center  text-sm sm:text-base px-6 py-3"> Start Spinning Now</Button>
               </motion.div>
               
               {/* <motion.a
@@ -180,7 +180,7 @@ const Cta = () => {
                         top: `${20 + (i % 3) * 20}%`
                       }}
                     >
-                      {['🎉', '💰', '🏆', '⭐', '🎰', '💎', '🔥', '✨'][i]}
+                      {['🎉', '💰', '🏆', '⭐', '🤖', '💎', '🔥', '✨'][i]}
                     </motion.div>
                   ))}
                 </div>
