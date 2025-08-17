@@ -219,7 +219,7 @@ export default function DailySpinner({ onRewardEarned, isSpinning, onSpinComplet
             whileHover={!internalSpinning ? { scale: 1.05, y: -2 } : {}}
             whileTap={!internalSpinning ? { scale: 0.95 } : {}}
           >
-            {internalSpinning ? '🎰 Spinning...' : '🎰 SPIN NOW!'}
+            {internalSpinning ? '🤖 Spinning...' : ' SPIN NOW!'}
           </motion.button>
         ) : (
           <div className="text-center">

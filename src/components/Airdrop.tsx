@@ -364,7 +364,7 @@ const Airdrop = () => {
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button className="w-full sm:w-auto">
-                🎰 Join SpinLoot
+                Join SpinLoot
               </Button>
               <button
                 onClick={resetProgress}

@@ -71,7 +71,7 @@ export default function PageLoader({ onComplete }: PageLoaderProps) {
             ease: "easeInOut"
           }}
         >
-          🎰
+     🤖
         </motion.div>
 
         <motion.div
@@ -210,7 +210,7 @@ export default function PageLoader({ onComplete }: PageLoaderProps) {
               }}
               className="text-3xl"
             >
-              🎡
+             🤖
             </motion.div>
           )}
 
@@ -248,7 +248,7 @@ export default function PageLoader({ onComplete }: PageLoaderProps) {
               animate={{ opacity: 1, scale: 1 }}
               className="flex gap-2"
             >
-              {['🎲', '🎲'].map((dice, index) => (
+              {['🤖', '🤖'].map((dice, index) => (
                 <motion.div
                   key={index}
                   animate={{
