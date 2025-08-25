@@ -1,11 +1,20 @@
 
-/* Extra theming, gradients and glow helpers */
-.gradient-red {
-  background: linear-gradient(135deg, rgba(225,29,72,0.9), rgba(225,29,72,0.5));
+/* Gaming theme styling, gradients and glow helpers */
+.gradient-primary {
+  background: linear-gradient(135deg, rgba(0,212,255,0.9), rgba(0,212,255,0.5));
 }
-.gradient-gold {
-  background: linear-gradient(135deg, rgba(245,196,81,0.9), rgba(245,196,81,0.5));
+.gradient-secondary {
+  background: linear-gradient(135deg, rgba(255,0,128,0.9), rgba(255,0,128,0.5));
+}
+.gradient-accent {
+  background: linear-gradient(135deg, rgba(123,44,191,0.9), rgba(123,44,191,0.5));
 }
 .ring-glow {
-  box-shadow: 0 0 0 2px rgba(255,255,255,0.08), 0 0 30px rgba(225,29,72,0.35);
+  box-shadow: 0 0 0 2px rgba(0,212,255,0.08), 0 0 30px rgba(0,212,255,0.35);
+}
+.neon-glow {
+  box-shadow: 0 0 0 2px rgba(255,0,128,0.08), 0 0 30px rgba(255,0,128,0.35);
+}
+.cyber-glow {
+  box-shadow: 0 0 0 2px rgba(123,44,191,0.08), 0 0 30px rgba(123,44,191,0.35);
 }

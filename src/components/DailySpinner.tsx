@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from 'framer-motion'
 import { useState, useEffect } from 'react'
-import { RotateCcw, Gift, Star, Zap, Crown, Coins } from 'lucide-react'
+import { RotateCcw, Gift, Star, Zap, Crown, Coins, Rocket } from 'lucide-react'
 
 interface SpinnerReward {
   id: string
@@ -20,41 +20,41 @@ interface DailySpinnerProps {
 const spinnerRewards: SpinnerReward[] = [
   {
     id: 'jackpot',
-    name: 'JACKPOT!',
+    name: 'COSMIC JACKPOT!',
     points: 100,
-    color: 'text-casino-gold',
+    color: 'text-astro-accent',
     icon: <Crown className="w-8 h-8" />,
     probability: 0.05 // 5%
   },
   {
     id: 'mega',
-    name: 'Mega Win',
+    name: 'Stellar Win',
     points: 50,
-    color: 'text-casino-red',
+    color: 'text-astro-secondary',
     icon: <Zap className="w-8 h-8" />,
     probability: 0.1 // 10%
   },
   {
     id: 'big',
-    name: 'Big Win',
+    name: 'Galaxy Win',
     points: 25,
-    color: 'text-casino-blue',
+    color: 'text-astro-primary',
     icon: <Star className="w-8 h-8" />,
     probability: 0.15 // 15%
   },
   {
     id: 'normal',
-    name: 'Win',
+    name: 'Space Win',
     points: 15,
-    color: 'text-green-400',
+    color: 'text-astro-success',
     icon: <Gift className="w-8 h-8" />,
     probability: 0.3 // 30%
   },
   {
     id: 'small',
-    name: 'Small Win',
+    name: 'Planet Win',
     points: 10,
-    color: 'text-yellow-400',
+    color: 'text-astro-warning',
     icon: <Coins className="w-8 h-8" />,
     probability: 0.4 // 40%
   }
@@ -164,7 +164,7 @@ export default function DailySpinner({ onRewardEarned, isSpinning, onSpinComplet
         }}
       >
         {/* Spinner Wheel */}
-        <div className="w-full h-full rounded-full border-8 border-casino-gold/30 bg-gradient-to-br from-casino-gold/20 to-casino-red/20 relative overflow-hidden">
+        <div className="w-full h-full rounded-full border-8 border-astro-primary/30 bg-gradient-to-br from-astro-primary/20 to-astro-secondary/20 relative overflow-hidden">
           {/* Spinner Segments */}
           {spinnerRewards.map((reward, index) => {
             const angle = (360 / spinnerRewards.length) * index
@@ -186,7 +186,7 @@ export default function DailySpinner({ onRewardEarned, isSpinning, onSpinComplet
                     transformOrigin: '0% 100%'
                   }}
                 >
-                  <div className={`${reward.color} font-bold text-sm`}>
+                  <div className={`${reward.color} font-bold text-sm astro-text`}>
                     {reward.points}
                   </div>
                 </div>
@@ -195,16 +195,16 @@ export default function DailySpinner({ onRewardEarned, isSpinning, onSpinComplet
           })}
           
           {/* Center Circle */}
-          <div className="absolute inset-8 rounded-full bg-black/80 border-4 border-casino-gold flex items-center justify-center">
+          <div className="absolute inset-8 rounded-full bg-astro-bg/80 border-4 border-astro-primary flex items-center justify-center">
             <div className="text-center">
-              <div className="text-casino-gold font-bold text-lg">DAILY</div>
+              <div className="text-astro-primary font-bold text-lg astro-text">DAILY</div>
               <div className="text-white/70 text-sm">SPIN</div>
             </div>
           </div>
           
           {/* Spinner Pointer */}
           <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-2">
-            <div className="w-0 h-0 border-l-8 border-r-8 border-b-12 border-transparent border-b-casino-gold" />
+            <div className="w-0 h-0 border-l-8 border-r-8 border-b-12 border-transparent border-b-astro-primary shadow-glow" />
           </div>
         </div>
       </motion.div>
@@ -215,20 +215,20 @@ export default function DailySpinner({ onRewardEarned, isSpinning, onSpinComplet
           <motion.button
             onClick={handleSpin}
             disabled={internalSpinning}
-            className="px-8 py-4 rounded-full bg-gradient-to-b from-[#FFD600] to-[#C9A900] shadow-lg shadow-black/40 text-black font-bold border border-yellow-400 text-lg uppercase hover:translate-y-[-1px] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+            className="px-8 py-4 rounded-full bg-gradient-to-r from-astro-primary to-astro-secondary shadow-lg shadow-astro-primary/40 text-white font-bold border border-astro-primary/50 text-lg uppercase hover:translate-y-[-1px] hover:shadow-neon transition-all disabled:opacity-50 disabled:cursor-not-allowed glow-effect"
             whileHover={!internalSpinning ? { scale: 1.05, y: -2 } : {}}
             whileTap={!internalSpinning ? { scale: 0.95 } : {}}
           >
-            {internalSpinning ? '🤖 Spinning...' : ' SPIN NOW!'}
+            {internalSpinning ? '🚀 Spinning...' : ' SPIN NOW!'}
           </motion.button>
         ) : (
           <div className="text-center">
             <div className="text-white/70 mb-2">Next spin available in:</div>
-            <div className="text-casino-gold font-bold text-xl">
+            <div className="text-astro-primary font-bold text-xl astro-text">
               {timeUntilNext ? `${timeUntilNext.hours}h ${timeUntilNext.minutes}m` : 'Loading...'}
             </div>
             <div className="text-white/50 text-sm mt-2">
-              Come back tomorrow for another chance!
+              Come back tomorrow for another cosmic adventure!
             </div>
           </div>
         )}
@@ -247,7 +247,7 @@ export default function DailySpinner({ onRewardEarned, isSpinning, onSpinComplet
               initial={{ scale: 0.5, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.5, opacity: 0 }}
-              className="bg-gradient-to-br from-casino-gold/90 to-casino-red/90 backdrop-blur-md rounded-3xl p-8 border-4 border-white/20 shadow-2xl text-center max-w-md mx-4"
+              className="bg-gradient-to-br from-astro-primary/90 to-astro-secondary/90 backdrop-blur-md rounded-3xl p-8 border-4 border-astro-primary/20 shadow-2xl text-center max-w-md mx-4"
             >
               <motion.div
                 animate={{ 
@@ -260,7 +260,7 @@ export default function DailySpinner({ onRewardEarned, isSpinning, onSpinComplet
                 🎉
               </motion.div>
               
-              <div className={`${spinResult.color} text-3xl font-black mb-2`}>
+              <div className={`${spinResult.color} text-3xl font-black mb-2 astro-text`}>
                 {spinResult.name}
               </div>
               
@@ -287,19 +287,19 @@ export default function DailySpinner({ onRewardEarned, isSpinning, onSpinComplet
 
       {/* Rewards Info */}
       <div className="mt-8">
-        <h3 className="text-center text-casino-gold font-bold text-lg mb-4">Possible Rewards</h3>
+        <h3 className="text-center text-astro-primary font-bold text-lg mb-4 astro-text">Possible Rewards</h3>
         <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
           {spinnerRewards.map((reward) => (
             <motion.div
               key={reward.id}
-              className="text-center p-3 rounded-xl bg-white/5 border border-white/10"
+              className="text-center p-3 rounded-xl astro-glass border border-astro-primary/10"
               whileHover={{ scale: 1.05, y: -2 }}
               transition={{ duration: 0.2 }}
             >
               <div className={`${reward.color} mb-1`}>
                 {reward.icon}
               </div>
-              <div className={`${reward.color} font-bold text-sm`}>
+              <div className={`${reward.color} font-bold text-sm astro-text`}>
                 {reward.points}
               </div>
               <div className="text-white/50 text-xs">

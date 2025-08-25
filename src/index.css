@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Quantico:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -11,21 +11,126 @@
   @apply bg-white/5 backdrop-blur-md border border-white/10;
 }
 
+.astro-glass {
+  @apply bg-astro-panel/30 backdrop-blur-md border border-astro-primary/20;
+}
+
 .btn {
   @apply inline-flex items-center gap-2 rounded-2xl px-5 py-3 font-semibold transition-all;
 }
+
 .btn-primary {
-  @apply px-10 rounded-full bg-gradient-to-b from-[#FFD600] to-[#C9A900] shadow-lg shadow-black/40 text-black font-bold border border-white py-2 text-base uppercase hover:translate-y-[-1px] transition-all;
+  @apply px-10 rounded-full bg-gradient-to-r from-astro-primary to-astro-secondary shadow-lg shadow-astro-primary/40 text-white font-bold border border-astro-primary/50 py-2 text-base uppercase hover:translate-y-[-1px] hover:shadow-neon transition-all duration-300;
 }
+
 .btn-ghost {
   @apply btn bg-white/10 text-white hover:bg-white/20;
 }
 
-body{
-  background-image: url('/public/bg.png');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  font-family: 'Quantico', sans-serif;
+.btn-astro {
+  @apply px-8 py-3 rounded-xl bg-gradient-to-r from-astro-primary/20 to-astro-secondary/20 hover:from-astro-primary/30 hover:to-astro-secondary/30 text-astro-primary hover:text-white border border-astro-primary/30 hover:border-astro-primary/50 transition-all duration-300 shadow-glow hover:shadow-neon;
+}
+
+body {
+  background: linear-gradient(135deg, #0B0B2A 0%, #1A1A4A 50%, #0A0A1F 100%);
+  background-size: 400% 400%;
+  animation: gradient-shift 15s ease infinite;
+  font-family: 'Rajdhani', sans-serif;
+  overflow-x: hidden;
+}
+
+@keyframes gradient-shift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Space background effect */
+.space-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: -1;
+  opacity: 0.1;
+}
+
+.space-bg::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(ellipse at center, rgba(0,212,255,0.1) 0%, rgba(255,107,157,0.05) 50%, transparent 100%);
+  animation: space-pulse 20s linear infinite;
+}
+
+@keyframes space-pulse {
+  0% { opacity: 0.1; }
+  50% { opacity: 0.2; }
+  100% { opacity: 0.1; }
+}
+
+/* Astro text effect */
+.astro-text {
+  text-shadow: 
+    0 0 10px currentColor,
+    0 0 20px currentColor,
+    0 0 30px currentColor;
+}
+
+/* Cosmic border effect */
+.cosmic-border {
+  box-shadow: 
+    0 0 10px currentColor,
+    inset 0 0 10px currentColor;
+}
+
+/* Floating animation for elements */
+.float-animation {
+  animation: float 6s ease-in-out infinite;
+}
+
+/* Glow effect for interactive elements */
+.glow-effect {
+  transition: all 0.3s ease;
+}
+
+.glow-effect:hover {
+  box-shadow: 
+    0 0 20px currentColor,
+    0 0 40px currentColor,
+    0 0 60px currentColor;
+}
+
+/* Astro grid background */
+.astro-grid {
+  background-image: 
+    linear-gradient(rgba(0,212,255,0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,212,255,0.1) 1px, transparent 1px);
+  background-size: 50px 50px;
+  animation: grid-move 20s linear infinite;
+}
+
+@keyframes grid-move {
+  0% { transform: translate(0, 0); }
+  100% { transform: translate(50px, 50px); }
+}
+
+/* Planet animation */
+.planet {
+  animation: planet-spin 15s linear infinite;
+}
+
+/* Star twinkle effect */
+.star {
+  animation: twinkle 1.5s infinite alternate;
+}
+
+/* Rocket animation */
+.rocket {
+  animation: rocket 20s linear infinite;
 }

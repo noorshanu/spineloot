@@ -7,9 +7,18 @@ interface PageLoaderProps {
 
 export default function PageLoader({ onComplete }: PageLoaderProps) {
   const [progress, setProgress] = useState(0)
-  const [showSpinner, setShowSpinner] = useState(false)
-  const [showCards, setShowCards] = useState(false)
-  const [showDice, setShowDice] = useState(false)
+  const [showAxe, setShowAxe] = useState(false)
+  const [showRunes, setShowRunes] = useState(false)
+  const [showFire, setShowFire] = useState(false)
+  const [currentPhase, setCurrentPhase] = useState(0)
+
+  const phases = [
+    "Awakening the Gods...",
+    "Forging the Axe...", 
+    "Reading the Runes...",
+    "Igniting the Flames...",
+    "Entering Valhalla..."
+  ]
 
   useEffect(() => {
     // Simulate loading progress
@@ -22,81 +31,76 @@ export default function PageLoader({ onComplete }: PageLoaderProps) {
           }, 1000)
           return 100
         }
-        return prev + Math.random() * 15 + 5
+        return prev + Math.random() * 12 + 3
       })
-    }, 200)
+    }, 300)
 
     // Show different animation phases
-    setTimeout(() => setShowSpinner(true), 500)
-    setTimeout(() => setShowCards(true), 1500)
-    setTimeout(() => setShowDice(true), 2500)
+    setTimeout(() => setShowAxe(true), 800)
+    setTimeout(() => setShowRunes(true), 1600)
+    setTimeout(() => setShowFire(true), 2400)
 
-    return () => clearInterval(interval)
-  }, [onComplete])
+    // Update phases
+    const phaseInterval = setInterval(() => {
+      setCurrentPhase(prev => {
+        const newPhase = Math.floor((progress / 100) * phases.length)
+        return Math.min(newPhase, phases.length - 1)
+      })
+    }, 1000)
+
+    return () => {
+      clearInterval(interval)
+      clearInterval(phaseInterval)
+    }
+  }, [onComplete, progress])
 
   return (
-    <div className="fixed inset-0 z-50 bg-black flex items-center justify-center overflow-hidden">
-      {/* Animated Background */}
+    <div className="fixed inset-0 z-50 bg-gradient-to-br from-gray-900 via-gray-800 to-black flex items-center justify-center overflow-hidden">
+      {/* God of War Background Elements */}
       <div className="absolute inset-0">
-        {/* Rotating Casino Logo */}
+        {/* Dark Mist Effect */}
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-gray-800/20 to-gray-900/40" />
+        
+        {/* Floating Runes */}
         <motion.div
-          className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+          className="absolute top-1/4 left-1/4 text-6xl opacity-20"
           animate={{
-            rotate: 360,
-            scale: [1, 1.2, 1],
-          }}
-          transition={{
-            rotate: { duration: 8, repeat: Infinity, ease: "linear" },
-            scale: { duration: 2, repeat: Infinity, ease: "easeInOut" }
-          }}
-        >
-          <img 
-            src="/bot-hero.png" 
-            alt="Casino" 
-            className="w-32 h-32 opacity-20 blur-sm"
-          />
-        </motion.div>
-
-        {/* Floating Casino Elements */}
-        <motion.div
-          className="absolute top-1/4 left-1/4 text-4xl"
-          animate={{
-            y: [0, -20, 0],
+            y: [0, -30, 0],
             rotate: [0, 360],
-            opacity: [0.3, 1, 0.3]
+            opacity: [0.1, 0.3, 0.1]
           }}
           transition={{
-            duration: 3,
+            duration: 4,
             repeat: Infinity,
             ease: "easeInOut"
           }}
         >
-     🤖
+          ⚔️
         </motion.div>
 
         <motion.div
-          className="absolute top-1/4 right-1/4 text-4xl"
+          className="absolute top-1/3 right-1/4 text-5xl opacity-20"
           animate={{
-            y: [0, 20, 0],
+            y: [0, 25, 0],
             rotate: [360, 0],
-            opacity: [0.3, 1, 0.3]
+            opacity: [0.1, 0.3, 0.1]
           }}
           transition={{
-            duration: 4,
+            duration: 5,
             repeat: Infinity,
             ease: "easeInOut",
             delay: 0.5
           }}
         >
-          $$$
+          🛡️
         </motion.div>
 
         <motion.div
-          className="absolute bottom-1/4 left-1/4 text-4xl"
+          className="absolute bottom-1/3 left-1/3 text-4xl opacity-20"
           animate={{
-            y: [0, -15, 0],
+            y: [0, -20, 0],
             rotate: [0, -360],
-            opacity: [0.3, 1, 0.3]
+            opacity: [0.1, 0.3, 0.1]
           }}
           transition={{
             duration: 3.5,
@@ -105,15 +109,15 @@ export default function PageLoader({ onComplete }: PageLoaderProps) {
             delay: 1
           }}
         >
-     🤖
+          🔥
         </motion.div>
 
         <motion.div
-          className="absolute bottom-1/4 right-1/4 text-4xl"
+          className="absolute bottom-1/4 right-1/3 text-5xl opacity-20"
           animate={{
-            y: [0, 15, 0],
+            y: [0, 30, 0],
             rotate: [360, 0],
-            opacity: [0.3, 1, 0.3]
+            opacity: [0.1, 0.3, 0.1]
           }}
           transition={{
             duration: 4.5,
@@ -122,147 +126,170 @@ export default function PageLoader({ onComplete }: PageLoaderProps) {
             delay: 1.5
           }}
         >
-          💎
+          ⚡
         </motion.div>
       </div>
 
       {/* Main Content */}
       <div className="relative z-10 text-center">
-        {/* Main Casino Logo */}
+        {/* God of War Style Logo */}
         <motion.div
           className="mb-8"
           animate={{
-            rotate: [0, 360],
-            scale: [1, 1.1, 1],
+            scale: [1, 1.05, 1],
+            filter: ["brightness(1)", "brightness(1.2)", "brightness(1)"]
           }}
           transition={{
-            rotate: { duration: 6, repeat: Infinity, ease: "linear" },
-            scale: { duration: 2, repeat: Infinity, ease: "easeInOut" }
+            duration: 3,
+            repeat: Infinity,
+            ease: "easeInOut"
           }}
         >
-          <img 
-            src="/bot-hero.png" 
-            alt="Casino" 
-            className="w-24 h-24 mx-auto drop-shadow-2xl"
-          />
+          <div className="relative">
+            <img 
+              src="/bot-hero.png" 
+              alt="SpinLoot" 
+              className="w-28 h-28 mx-auto drop-shadow-2xl filter brightness-75"
+            />
+            {/* Glowing effect */}
+            <div className="absolute inset-0 w-28 h-28 mx-auto bg-gradient-to-r from-orange-500/30 to-red-600/30 rounded-full blur-xl animate-pulse" />
+          </div>
         </motion.div>
 
-        {/* Title */}
+        {/* Epic Title */}
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="text-4xl font-black text-casino-gold mb-4"
+          transition={{ duration: 1 }}
+          className="text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-red-500 to-orange-600 mb-4 tracking-wider"
+          style={{ textShadow: '0 0 20px rgba(251, 146, 60, 0.5)' }}
         >
-          SpinLoot
+          SPINLOOT
         </motion.h1>
 
         {/* Subtitle */}
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          className="text-xl text-white/70 mb-8"
+          transition={{ duration: 1, delay: 0.3 }}
+          className="text-xl text-gray-300 mb-8 font-semibold tracking-wide"
         >
-          Loading your SpinLoot experience...
+          Enter the realm of legendary wins...
         </motion.p>
 
-        {/* Progress Bar */}
+        {/* Progress Bar - God of War Style */}
         <motion.div
           initial={{ opacity: 0, scaleX: 0 }}
           animate={{ opacity: 1, scaleX: 1 }}
-          transition={{ duration: 1, delay: 0.5 }}
-          className="w-80 h-3 bg-white/20 rounded-full overflow-hidden mx-auto mb-8"
+          transition={{ duration: 1.2, delay: 0.6 }}
+          className="w-96 h-4 bg-gray-800/50 rounded-full overflow-hidden mx-auto mb-8 border border-gray-600/30"
         >
           <motion.div
-            className="h-full bg-gradient-to-r from-casino-gold to-casino-red rounded-full"
+            className="h-full bg-gradient-to-r from-orange-500 via-red-600 to-orange-400 rounded-full relative"
             initial={{ width: 0 }}
             animate={{ width: `${progress}%` }}
-            transition={{ duration: 0.3 }}
-          />
+            transition={{ duration: 0.4 }}
+          >
+            {/* Glowing effect on progress */}
+            <div className="absolute inset-0 bg-gradient-to-r from-orange-400/50 to-red-500/50 blur-sm" />
+          </motion.div>
         </motion.div>
 
-        {/* Progress Text */}
+        {/* Progress Percentage */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.7 }}
-          className="text-lg font-semibold text-casino-gold mb-8"
+          transition={{ duration: 0.8, delay: 0.9 }}
+          className="text-2xl font-bold text-orange-400 mb-8"
+          style={{ textShadow: '0 0 10px rgba(251, 146, 60, 0.5)' }}
         >
           {Math.round(progress)}%
         </motion.div>
 
-        {/* Animated Elements */}
-        <div className="flex justify-center items-center gap-8">
-          {/* Spinning Wheel */}
-          {showSpinner && (
+        {/* Current Phase Text */}
+        <motion.div
+          key={currentPhase}
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -10 }}
+          transition={{ duration: 0.5 }}
+          className="text-lg text-gray-400 mb-8 font-medium"
+        >
+          {phases[currentPhase]}
+        </motion.div>
+
+        {/* God of War Animated Elements */}
+        <div className="flex justify-center items-center gap-12">
+          {/* Leviathan Axe */}
+          {showAxe && (
             <motion.div
-              initial={{ opacity: 0, scale: 0 }}
+              initial={{ opacity: 0, scale: 0, rotate: -45 }}
               animate={{ 
                 opacity: 1, 
                 scale: 1,
-                rotate: 360
+                rotate: [0, 5, -5, 0]
               }}
               transition={{
-                opacity: { duration: 0.5 },
-                scale: { duration: 0.5 },
-                rotate: { duration: 2, repeat: Infinity, ease: "linear" }
+                opacity: { duration: 0.8 },
+                scale: { duration: 0.8 },
+                rotate: { duration: 2, repeat: Infinity, ease: "easeInOut" }
               }}
-              className="text-3xl"
+              className="text-4xl"
             >
-             🤖
+              ⚔️
             </motion.div>
           )}
 
-          {/* Cards */}
-          {showCards && (
+          {/* Runes */}
+          {showRunes && (
             <motion.div
               initial={{ opacity: 0, scale: 0 }}
               animate={{ opacity: 1, scale: 1 }}
-              className="flex gap-1"
+              className="flex gap-3"
             >
-              {['$$$', '$$$', '$$$'].map((card, index) => (
+              {['🔮', '⚡', '🔥'].map((rune, index) => (
                 <motion.div
                   key={index}
                   animate={{
-                    y: [0, -10, 0],
-                    rotate: [0, 5, -5, 0]
-                  }}
-                  transition={{
-                    duration: 1.5,
-                    repeat: Infinity,
-                    delay: index * 0.2
-                  }}
-                  className="text-2xl"
-                >
-                  {card}
-                </motion.div>
-              ))}
-            </motion.div>
-          )}
-
-          {/* Dice */}
-          {showDice && (
-            <motion.div
-              initial={{ opacity: 0, scale: 0 }}
-              animate={{ opacity: 1, scale: 1 }}
-              className="flex gap-2"
-            >
-              {['🤖', '🤖'].map((dice, index) => (
-                <motion.div
-                  key={index}
-                  animate={{
-                    rotate: [0, 360],
-                    scale: [1, 1.2, 1]
+                    y: [0, -15, 0],
+                    rotate: [0, 10, -10, 0],
+                    scale: [1, 1.1, 1]
                   }}
                   transition={{
                     duration: 2,
                     repeat: Infinity,
                     delay: index * 0.3
                   }}
-                  className="text-2xl"
+                  className="text-3xl"
                 >
-                  {dice}
+                  {rune}
+                </motion.div>
+              ))}
+            </motion.div>
+          )}
+
+          {/* Fire Effects */}
+          {showFire && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="flex gap-2"
+            >
+              {['🔥', '🔥', '🔥'].map((fire, index) => (
+                <motion.div
+                  key={index}
+                  animate={{
+                    scale: [1, 1.3, 1],
+                    opacity: [0.7, 1, 0.7]
+                  }}
+                  transition={{
+                    duration: 1.5,
+                    repeat: Infinity,
+                    delay: index * 0.2
+                  }}
+                  className="text-3xl"
+                >
+                  {fire}
                 </motion.div>
               ))}
             </motion.div>
@@ -273,34 +300,34 @@ export default function PageLoader({ onComplete }: PageLoaderProps) {
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 0.5, delay: 1 }}
-          className="mt-8 text-white/60"
+          transition={{ duration: 0.8, delay: 1.2 }}
+          className="mt-12 text-gray-500 font-medium"
         >
           <motion.span
             animate={{ opacity: [0.5, 1, 0.5] }}
-            transition={{ duration: 1.5, repeat: Infinity }}
+            transition={{ duration: 2, repeat: Infinity }}
           >
-            Preparing your lucky spin...
+            Preparing your journey to Valhalla...
           </motion.span>
         </motion.div>
       </div>
 
-      {/* Particle Effects */}
+      {/* God of War Particle Effects */}
       <div className="absolute inset-0 pointer-events-none">
-        {[...Array(20)].map((_, i) => (
+        {[...Array(15)].map((_, i) => (
           <motion.div
             key={i}
-            className="absolute w-1 h-1 bg-casino-gold rounded-full"
+            className="absolute w-1 h-1 bg-orange-500 rounded-full"
             animate={{
-              x: [0, Math.random() * 400 - 200],
-              y: [0, Math.random() * 400 - 200],
+              x: [0, Math.random() * 600 - 300],
+              y: [0, Math.random() * 600 - 300],
               opacity: [0, 1, 0],
               scale: [0, 1, 0]
             }}
             transition={{
-              duration: 3 + Math.random() * 2,
+              duration: 4 + Math.random() * 3,
               repeat: Infinity,
-              delay: Math.random() * 2
+              delay: Math.random() * 3
             }}
             style={{
               left: `${Math.random() * 100}%`,
@@ -309,6 +336,9 @@ export default function PageLoader({ onComplete }: PageLoaderProps) {
           />
         ))}
       </div>
+
+      {/* Dark Overlay for dramatic effect */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-black/20" />
     </div>
   )
 }
