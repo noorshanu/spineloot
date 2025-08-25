@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion'
 import { useState, useEffect } from 'react'
-import { Rocket, Star, Planet, Zap, Sparkles } from 'lucide-react'
+import { Rocket, Star,  Sparkles } from 'lucide-react'
 
 interface AstroLoaderProps {
   onComplete: () => void
