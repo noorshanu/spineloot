@@ -13,7 +13,8 @@ import Aboutus from './components/Aboutus'
 import Cta from './components/Cta'
 import Postersection from './components/Postersection'
 import AirdropPage from './pages/AirdropPage'
-import PageLoader from './components/PageLoader'
+import AstroLoader from './components/AstroLoader'
+import AstroLoaderDemo from './components/AstroLoaderDemo'
 
 function HomePage() {
   return (
@@ -42,11 +43,12 @@ export function App() {
 
   return (
     <>
-      {isLoading && <PageLoader onComplete={handleLoaderComplete} />}
+      {isLoading && <AstroLoader onComplete={handleLoaderComplete} />}
       <Router>
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/airdrop" element={<AirdropPage />} />
+          <Route path="/astro-loader-demo" element={<AstroLoaderDemo />} />
         </Routes>
       </Router>
     </>

@@ -109,14 +109,14 @@ export default function Footer() {
 
         {/* Bottom Section */}
         <div className="border-t border-astro-primary/10 mt-8 pt-8">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+          <div className="flex flex-col md:flex-row justify-center items-center gap-4">
             <p className="text-white/50 text-sm text-center md:text-left">
               © 2025 SpinLoot. All rights reserved. Built on Solana.
             </p>
-            <div className="flex items-center gap-4 text-white/50 text-sm">
+            {/* <div className="flex items-center gap-4 text-white/50 text-sm">
               <span>🚀 Powered by Space Technology</span>
               <span>⭐ Cosmic Gaming</span>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

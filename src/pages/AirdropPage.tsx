@@ -19,6 +19,7 @@ import { Link } from 'react-router-dom'
 import Confetti from 'react-confetti'
 import { useWindowSize } from 'react-use'
 import DailySpinner from '../components/DailySpinner'
+import AstroLoader from '../components/AstroLoader'
 
 interface Task {
   id: string
@@ -127,6 +128,7 @@ const AirdropPage = () => {
   const [completedTaskPoints, setCompletedTaskPoints] = useState(0)
   const [isSpinnerSpinning, setIsSpinnerSpinning] = useState(false)
   const [showDailySpinner, setShowDailySpinner] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
   
   const [airdropData, setAirdropData] = useState<AirdropData>({
     totalPoints: 0,
@@ -250,6 +252,14 @@ const AirdropPage = () => {
   }
 
   const tier = getTier(airdropData.totalPoints)
+
+  const handleLoadingComplete = () => {
+    setIsLoading(false)
+  }
+
+  if (isLoading) {
+    return <AstroLoader onComplete={handleLoadingComplete} />
+  }
 
   return (
     <div className="min-h-screen text-white bg-astro-bg/30 backdrop-blur-sm overflow-hidden">
