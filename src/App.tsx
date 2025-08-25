@@ -48,6 +48,7 @@ export function App() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/airdrop" element={<AirdropPage />} />
+          <Route path="/dashboard" element={<AirdropPage />} />
           <Route path="/astro-loader-demo" element={<AstroLoaderDemo />} />
         </Routes>
       </Router>
