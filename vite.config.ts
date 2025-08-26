@@ -18,6 +18,7 @@ export default defineConfig({
     port: 5173
   },
   optimizeDeps: {
+    include: ['buffer'],
     esbuildOptions: {
       define: {
         global: 'globalThis'
