@@ -138,38 +138,66 @@ const Cta = () => {
                 
                 {/* Floating celebration elements */}
                 <div className="absolute inset-0 pointer-events-none">
-                  {[...Array(8)].map((_, i) => (
+                  {/* Enhanced Stars */}
+                  {[...Array(12)].map((_, i) => (
                     <motion.div
                       key={i}
-                      className="absolute text-2xl"
+                      className={`absolute bg-astro-accent rounded-full star ${
+                        i % 3 === 0 ? 'w-2 h-2' : i % 2 === 0 ? 'w-1.5 h-1.5' : 'w-1 h-1'
+                      }`}
                       animate={{
-                        y: [0, -20, 0],
-                        opacity: [0.3, 1, 0.3],
-                        rotate: [0, 360]
+                        opacity: [0.2, 1, 0.2],
+                        scale: [0.5, 1.2, 0.5]
                       }}
                       transition={{
-                        duration: 3,
+                        duration: 2 + Math.random() * 2,
                         repeat: Infinity,
-                        delay: i * 0.4,
+                        delay: i * 0.3,
                         ease: "easeInOut"
                       }}
                       style={{
-                        left: `${10 + i * 10}%`,
-                        top: `${20 + (i % 3) * 20}%`
+                        left: `${5 + Math.random() * 90}%`,
+                        top: `${5 + Math.random() * 90}%`,
+                        filter: `blur(${Math.random() * 0.3}px)`
                       }}
-                    >
-                      {['🚀', '⭐', '🏆', '🌟', '🤖', '💎', '🔥', '✨'][i]}
-                    </motion.div>
+                    />
                   ))}
+                  
+                  {/* Shooting Stars */}
+                  {[...Array(2)].map((_, i) => (
+                    <motion.div
+                      key={`shooting-${i}`}
+                      className="absolute w-0.5 h-0.5 bg-white rounded-full"
+                      animate={{
+                        x: [0, 60],
+                        y: [0, -30],
+                        opacity: [0, 1, 0]
+                      }}
+                      transition={{
+                        duration: 2.5,
+                        repeat: Infinity,
+                        delay: i * 3,
+                        ease: "easeOut"
+                      }}
+                      style={{
+                        left: `${15 + i * 30}%`,
+                        top: `${20 + i * 15}%`
+                      }}
+                    />
+                  ))}
+                  
+                  {/* Nebula Effects */}
+                  <div className="absolute top-0 left-0 w-1/3 h-1/3 bg-gradient-radial from-pink-400/15 to-transparent rounded-full blur-md" />
+                  <div className="absolute bottom-0 right-0 w-1/3 h-1/3 bg-gradient-radial from-blue-400/15 to-transparent rounded-full blur-md" />
                 </div>
                 
                 {/* Success glow effect */}
                 <div className="absolute inset-0 rounded-2xl bg-gradient-to-t from-astro-success/20 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300" />
               </motion.div>
               
-              {/* Decorative elements */}
+              {/* Decorative space elements */}
               <motion.div
-                className="absolute -top-4 -right-4 w-12 h-12 bg-astro-primary rounded-full flex items-center justify-center text-2xl shadow-glow"
+                className="absolute -top-4 -right-4 w-12 h-12 bg-gradient-to-br from-astro-primary to-astro-secondary rounded-full shadow-glow"
                 animate={{
                   scale: [1, 1.2, 1],
                   rotate: [0, 360]
@@ -180,10 +208,10 @@ const Cta = () => {
                   ease: "easeInOut"
                 }}
               >
-                🏆
+                <div className="w-full h-full rounded-full bg-gradient-to-br from-yellow-400 to-orange-500 opacity-80" />
               </motion.div>
               <motion.div
-                className="absolute -bottom-4 -left-4 w-10 h-10 bg-astro-secondary rounded-full flex items-center justify-center text-xl shadow-neon"
+                className="absolute -bottom-4 -left-4 w-10 h-10 bg-gradient-to-br from-astro-secondary to-astro-accent rounded-full shadow-neon"
                 animate={{
                   scale: [1, 1.3, 1],
                   rotate: [0, -360]
@@ -194,7 +222,7 @@ const Cta = () => {
                   ease: "easeInOut"
                 }}
               >
-                ⭐
+                <div className="w-full h-full rounded-full bg-gradient-to-br from-cyan-400 to-blue-500 opacity-80" />
               </motion.div>
             </div>
           </motion.div>
@@ -205,3 +233,17 @@ const Cta = () => {
 }
 
 export default Cta
+
+// Add star glow effect styles
+const starStyles = `
+  .star {
+    box-shadow: 0 0 4px currentColor, 0 0 8px currentColor;
+  }
+`;
+
+// Inject styles
+if (typeof document !== 'undefined') {
+  const style = document.createElement('style');
+  style.textContent = starStyles;
+  document.head.appendChild(style);
+}
