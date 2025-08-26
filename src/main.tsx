@@ -1,3 +1,8 @@
+// Buffer polyfill for Solana wallet adapters
+if (typeof window !== 'undefined') {
+  (window as any).global = window;
+  (window as any).Buffer = (window as any).Buffer || require('buffer').Buffer;
+}
 
 import React from 'react'
 import ReactDOM from 'react-dom/client'
