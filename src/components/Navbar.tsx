@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import { Menu, X, Rocket, Star } from 'lucide-react'
+import { WalletConnectButton } from './WalletConnectButton'
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
@@ -50,10 +51,11 @@ export default function Navbar() {
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-8">
+          <div className="hidden md:flex items-center gap-6">
             <NavLink href="#features">Features</NavLink>
             <NavLink href="#tokenomics">Tokenomics</NavLink>
             <NavLink href="#faq">FAQ</NavLink>
+            <WalletConnectButton />
             <motion.div
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
@@ -100,10 +102,13 @@ export default function Navbar() {
               <MobileNavLink href="#faq" onClick={() => setIsOpen(false)}>
                 FAQ
               </MobileNavLink>
+              <div className="pt-4">
+                <WalletConnectButton className="w-full" />
+              </div>
               <motion.div
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
-                className="pt-4"
+                className="pt-2"
               >
                 <Link
                   to="/airdrop"

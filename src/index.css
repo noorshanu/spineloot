@@ -3,6 +3,96 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Custom CSS for Solana Wallet Adapter */
+
+
+
+.wallet-adapter-modal-wrapper {
+  background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%) !important;
+  border: 1px solid rgba(0, 212, 255, 0.3) !important;
+  border-radius: 16px !important;
+  box-shadow: 0 0 40px rgba(0, 212, 255, 0.2) !important;
+}
+
+.wallet-adapter-modal-title {
+  color: #00d4ff !important;
+  font-weight: bold !important;
+}
+
+.wallet-adapter-modal-list {
+  background: transparent !important;
+}
+
+.wallet-adapter-modal-list-item {
+  background: rgba(0, 212, 255, 0.1) !important;
+  border: 1px solid rgba(0, 212, 255, 0.2) !important;
+  border-radius: 12px !important;
+  color: white !important;
+  transition: all 0.3s ease !important;
+}
+
+.wallet-adapter-modal-list-item:hover {
+  background: rgba(0, 212, 255, 0.2) !important;
+  border-color: rgba(0, 212, 255, 0.4) !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 8px 25px rgba(0, 212, 255, 0.3) !important;
+}
+
+.wallet-adapter-modal-list-item:not(:disabled):hover {
+  background: rgba(0, 212, 255, 0.2) !important;
+}
+
+.wallet-adapter-modal-list-item:not(:disabled):active {
+  background: rgba(0, 212, 255, 0.3) !important;
+}
+
+.wallet-adapter-modal-list-item .wallet-adapter-button {
+  background: transparent !important;
+  color: white !important;
+  font-weight: 600 !important;
+}
+
+.wallet-adapter-modal-list-item .wallet-adapter-button:hover {
+  background: transparent !important;
+}
+
+.wallet-adapter-modal-list-item .wallet-adapter-button-end-icon {
+  color: #00d4ff !important;
+}
+
+.wallet-adapter-modal-button-close {
+  background: rgba(255, 255, 255, 0.1) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  border-radius: 50% !important;
+  color: white !important;
+  transition: all 0.3s ease !important;
+}
+
+.wallet-adapter-modal-button-close:hover {
+  background: rgba(255, 255, 255, 0.2) !important;
+  border-color: rgba(255, 255, 255, 0.3) !important;
+  transform: scale(1.1) !important;
+}
+
+/* Custom scrollbar for wallet modal */
+.wallet-adapter-modal-list::-webkit-scrollbar {
+  width: 8px;
+}
+
+.wallet-adapter-modal-list::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+
+.wallet-adapter-modal-list::-webkit-scrollbar-thumb {
+  background: rgba(0, 212, 255, 0.5);
+  border-radius: 4px;
+}
+
+.wallet-adapter-modal-list::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 212, 255, 0.7);
+}
+
 :root {
   --ring: 0 0% 100%;
 }

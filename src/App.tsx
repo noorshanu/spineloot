@@ -1,6 +1,7 @@
 
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { useState, useEffect } from 'react'
+import { WalletProvider } from './components/WalletProvider'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
 import Features from './components/Features'
@@ -13,6 +14,7 @@ import Aboutus from './components/Aboutus'
 import Cta from './components/Cta'
 import Postersection from './components/Postersection'
 import AirdropPage from './pages/AirdropPage'
+import ReferralPage from './pages/ReferralPage'
 import AstroLoader from './components/AstroLoader'
 import AstroLoaderDemo from './components/AstroLoaderDemo'
 
@@ -42,16 +44,17 @@ export function App() {
   }
 
   return (
-    <>
+    <WalletProvider>
       {isLoading && <AstroLoader onComplete={handleLoaderComplete} />}
       <Router>
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/airdrop" element={<AirdropPage />} />
           <Route path="/dashboard" element={<AirdropPage />} />
+          <Route path="/referral" element={<ReferralPage />} />
           <Route path="/astro-loader-demo" element={<AstroLoaderDemo />} />
         </Routes>
       </Router>
-    </>
+    </WalletProvider>
   )
 }
