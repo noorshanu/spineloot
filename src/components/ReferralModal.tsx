@@ -12,9 +12,14 @@ import {
   Facebook,
   Instagram,
   MessageCircle,
-  Wallet
+  Wallet,
+  Menu,
+  ArrowLeft
 } from 'lucide-react';
 import { useUser } from '../contexts/UserContext';
+import { Link } from 'react-router-dom';
+import Sidebar from './Sidebar';
+import Navbar from './Navbar';
 
 interface ReferralModalProps {
   isOpen: boolean;
@@ -23,6 +28,8 @@ interface ReferralModalProps {
 
 export default function ReferralModal({ isOpen, onClose }: ReferralModalProps) {
   const [copied, setCopied] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState('referral');
   const { user } = useUser();
   
   // Dynamic referral code and link based on user data
@@ -62,46 +69,63 @@ export default function ReferralModal({ isOpen, onClose }: ReferralModalProps) {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 z-50 flex items-center justify-center p-4"
+          className="fixed inset-0 z-50 bg-gradient-to-br from-astro-bg via-astro-panel to-astro-dark"
         >
-          {/* Backdrop */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="absolute inset-0 bg-black/60 backdrop-blur-sm"
-            onClick={onClose}
-          />
+          {/* Background Effects */}
+          <div className="fixed inset-0">
+            <div className="absolute inset-0 astro-grid opacity-10" />
+            <div className="absolute top-0 left-0 w-full h-full bg-radial-primary opacity-20" />
+            <div className="absolute top-0 right-0 w-full h-full bg-radial-secondary opacity-15" />
+          </div>
 
-          {/* Modal */}
-          <motion.div
-            initial={{ scale: 0.9, opacity: 0, y: 20 }}
-            animate={{ scale: 1, opacity: 1, y: 0 }}
-            exit={{ scale: 0.9, opacity: 0, y: 20 }}
-            className="relative w-full max-w-2xl bg-gradient-to-br from-astro-panel to-astro-dark rounded-3xl border border-astro-primary/20 shadow-2xl overflow-hidden"
-          >
-            {/* Header */}
-            <div className="relative p-6 border-b border-astro-primary/20">
-              <div className="flex items-center justify-between">
-                <div>
-                  <h2 className="text-2xl font-bold text-astro-primary astro-text">
-                    Refer & Earn
-                  </h2>
-                  <p className="text-white/70 mt-1">
-                    Invite friends and earn rewards together!
-                  </p>
+          {/* Navbar */}
+          <div className="relative z-10">
+            <Navbar />
+          </div>
+
+          {/* Main Content */}
+          <div className="relative z-10 flex h-screen pt-16">
+            {/* Sidebar */}
+            <Sidebar
+              activeTab={activeTab}
+              setActiveTab={setActiveTab}
+              isSidebarOpen={isSidebarOpen}
+              setIsSidebarOpen={setIsSidebarOpen}
+              onReferralClick={() => {}}
+            />
+
+            {/* Content Area */}
+            <div className="flex-1 flex flex-col min-h-screen lg:min-h-0">
+              {/* Header */}
+              <div className="p-6 border-b border-astro-primary/20">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-4">
+                    <Link
+                      to="/dashboard"
+                      className="p-2 rounded-lg bg-astro-primary/20 text-astro-primary hover:bg-astro-primary/30 transition-all"
+                    >
+                      <ArrowLeft className="w-6 h-6" />
+                    </Link>
+                    <div>
+                      <h1 className="text-2xl font-bold text-astro-primary astro-text">
+                        Refer & Earn
+                      </h1>
+                      <p className="text-white/70 mt-1">
+                        Invite friends and earn rewards together!
+                      </p>
+                    </div>
+                  </div>
+                  <button
+                    onClick={onClose}
+                    className="p-2 rounded-full bg-astro-primary/10 text-astro-primary hover:bg-astro-primary/20 transition-all"
+                  >
+                    <X className="w-6 h-6" />
+                  </button>
                 </div>
-                <button
-                  onClick={onClose}
-                  className="p-2 rounded-full bg-astro-primary/10 text-astro-primary hover:bg-astro-primary/20 transition-all"
-                >
-                  <X className="w-6 h-6" />
-                </button>
               </div>
-            </div>
 
-            {/* Content */}
-            <div className="p-6 space-y-6">
+                            {/* Content */}
+              <div className="flex-1 p-6 overflow-y-auto space-y-6">
               {/* Wallet Connection Check */}
               {!user ? (
                 <motion.div
@@ -116,12 +140,12 @@ export default function ReferralModal({ isOpen, onClose }: ReferralModalProps) {
                   <p className="text-white/70 mb-4">
                     Connect your wallet to get your unique referral code and start earning rewards!
                   </p>
-                  <button
-                    onClick={onClose}
+                  <Link
+                    to="/dashboard"
                     className="px-6 py-3 rounded-lg bg-gradient-to-r from-astro-primary to-astro-secondary text-white font-semibold hover:scale-105 transition-all"
                   >
                     Connect Wallet
-                  </button>
+                  </Link>
                 </motion.div>
               ) : (
                 <>
@@ -231,8 +255,9 @@ export default function ReferralModal({ isOpen, onClose }: ReferralModalProps) {
               </div>
                 </>
               )}
+              </div>
             </div>
-          </motion.div>
+          </div>
         </motion.div>
       )}
     </AnimatePresence>
