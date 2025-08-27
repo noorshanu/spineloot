@@ -21,7 +21,7 @@ import { useAirdrop } from '../contexts/AirdropContext';
 import { useUser } from '../contexts/UserContext';
 
 export default function Dashboard() {
-  const { airdropData, completeTask, spinDailySpinner, loading } = useAirdrop();
+  const { airdropData, completeTask, spinDailySpinner, loading, refreshTasks } = useAirdrop();
   const { user } = useUser();
   const [activeTab, setActiveTab] = useState('dashboard');
   const [isSpinnerSpinning, setIsSpinnerSpinning] = useState(false);

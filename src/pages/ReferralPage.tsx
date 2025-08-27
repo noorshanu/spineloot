@@ -26,7 +26,10 @@ export default function ReferralPage() {
 
   const handleCopy = async () => {
     try {
-      const referralLink = `https://spinloot.com/ref/${user?.referralCode || 'SPINLOOT2024'}`;
+      const baseUrl = window.location.origin;
+      const referralLink = user?.referralCode 
+        ? `${baseUrl}/ref/${user.referralCode}`
+        : `${baseUrl}/connect-wallet`;
       await navigator.clipboard.writeText(referralLink);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);

@@ -82,10 +82,11 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     try {
       const walletAddress = publicKey.toString();
       
-      // Check for referral code in URL
+      // Check for referral code in URL parameters and localStorage
       const urlParams = new URLSearchParams(window.location.search);
       const urlReferralCode = urlParams.get('ref') || urlParams.get('referral');
-      const finalReferralCode = referralCode || urlReferralCode;
+      const pendingReferralCode = localStorage.getItem('pendingReferralCode');
+      const finalReferralCode = referralCode || urlReferralCode || pendingReferralCode;
 
       const response = await apiService.connectWallet(
         walletAddress,
@@ -99,12 +100,13 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
         apiService.setToken(token);
         setUser(userData);
         
-        // Clear referral code from URL
+        // Clear referral code from URL and localStorage
         if (finalReferralCode) {
           const newUrl = new URL(window.location.href);
           newUrl.searchParams.delete('ref');
           newUrl.searchParams.delete('referral');
           window.history.replaceState({}, '', newUrl.toString());
+          localStorage.removeItem('pendingReferralCode');
         }
       } else {
         setError(response.message || 'Failed to connect wallet');

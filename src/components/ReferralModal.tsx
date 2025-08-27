@@ -11,8 +11,10 @@ import {
   Twitter,
   Facebook,
   Instagram,
-  MessageCircle
+  MessageCircle,
+  Wallet
 } from 'lucide-react';
+import { useUser } from '../contexts/UserContext';
 
 interface ReferralModalProps {
   isOpen: boolean;
@@ -21,8 +23,14 @@ interface ReferralModalProps {
 
 export default function ReferralModal({ isOpen, onClose }: ReferralModalProps) {
   const [copied, setCopied] = useState(false);
-  const [referralCode] = useState('SPINLOOT2024');
-  const [referralLink] = useState('https://spinloot.com/ref/SPINLOOT2024');
+  const { user } = useUser();
+  
+  // Dynamic referral code and link based on user data
+  const referralCode = user?.referralCode || 'CONNECT_WALLET';
+  const baseUrl = window.location.origin;
+  const referralLink = user?.referralCode 
+    ? `${baseUrl}/ref/${user.referralCode}`
+    : `${baseUrl}/connect-wallet`;
 
   const handleCopy = async () => {
     try {
@@ -42,9 +50,9 @@ export default function ReferralModal({ isOpen, onClose }: ReferralModalProps) {
   ];
 
   const referralStats = [
-    { label: 'Total Referrals', value: '24', icon: Users },
-    { label: 'Earnings', value: '120 SPIN', icon: Gift },
-    { label: 'Active Referrals', value: '18', icon: Star },
+    { label: 'Total Referrals', value: user?.referralCount?.toString() || '0', icon: Users },
+    { label: 'Earnings', value: `${user?.totalReferralEarnings || 0} Points`, icon: Gift },
+    { label: 'Current Tier', value: user?.currentTier || 'Newcomer', icon: Star },
   ];
 
   return (
@@ -94,8 +102,31 @@ export default function ReferralModal({ isOpen, onClose }: ReferralModalProps) {
 
             {/* Content */}
             <div className="p-6 space-y-6">
-              {/* Referral Stats */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              {/* Wallet Connection Check */}
+              {!user ? (
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="astro-glass rounded-xl p-8 text-center border-2 border-dashed border-astro-primary/30"
+                >
+                  <Wallet className="w-16 h-16 text-astro-primary mx-auto mb-4" />
+                  <h3 className="text-xl font-bold text-astro-primary mb-2">
+                    Connect Your Wallet
+                  </h3>
+                  <p className="text-white/70 mb-4">
+                    Connect your wallet to get your unique referral code and start earning rewards!
+                  </p>
+                  <button
+                    onClick={onClose}
+                    className="px-6 py-3 rounded-lg bg-gradient-to-r from-astro-primary to-astro-secondary text-white font-semibold hover:scale-105 transition-all"
+                  >
+                    Connect Wallet
+                  </button>
+                </motion.div>
+              ) : (
+                <>
+                  {/* Referral Stats */}
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 {referralStats.map((stat, index) => {
                   const Icon = stat.icon;
                   return (
@@ -186,11 +217,11 @@ export default function ReferralModal({ isOpen, onClose }: ReferralModalProps) {
                 <div className="space-y-3 text-sm text-white/80">
                   <div className="flex items-center gap-3">
                     <div className="w-2 h-2 bg-astro-accent rounded-full" />
-                    <span>Earn <strong className="text-astro-accent">50 SPIN</strong> for each successful referral</span>
+                    <span>Earn <strong className="text-astro-accent">100 Points</strong> for each successful referral</span>
                   </div>
                   <div className="flex items-center gap-3">
                     <div className="w-2 h-2 bg-astro-accent rounded-full" />
-                    <span>Your friends get <strong className="text-astro-secondary">25 SPIN</strong> bonus on signup</span>
+                    <span>Your friends get <strong className="text-astro-secondary">50 Points</strong> welcome bonus on signup</span>
                   </div>
                   <div className="flex items-center gap-3">
                     <div className="w-2 h-2 bg-astro-accent rounded-full" />
@@ -198,6 +229,8 @@ export default function ReferralModal({ isOpen, onClose }: ReferralModalProps) {
                   </div>
                 </div>
               </div>
+                </>
+              )}
             </div>
           </motion.div>
         </motion.div>

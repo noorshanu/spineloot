@@ -57,6 +57,7 @@ export function App() {
               <Route path="/airdrop" element={<AirdropPage />} />
               <Route path="/dashboard" element={<AirdropPage />} />
               <Route path="/referral" element={<ReferralPage />} />
+              <Route path="/ref/:referralCode" element={<AirdropPage />} />
               <Route path="/astro-loader-demo" element={<AstroLoaderDemo />} />
             </Routes>
           </Router>

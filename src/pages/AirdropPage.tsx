@@ -13,7 +13,7 @@ import {
   HelpCircle,
   Rocket
 } from 'lucide-react'
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import Confetti from 'react-confetti'
 import { useWindowSize } from 'react-use'
 import DailySpinner from '../components/DailySpinner'
@@ -125,6 +125,7 @@ const defaultTasks: Task[] = [
 
 const AirdropPage = () => {
   const { width, height } = useWindowSize()
+  const { referralCode } = useParams()
   const [showConfetti, setShowConfetti] = useState(false)
   const [completedTaskPoints, setCompletedTaskPoints] = useState(0)
   const [isSpinnerSpinning, setIsSpinnerSpinning] = useState(false)
@@ -133,6 +134,14 @@ const AirdropPage = () => {
   
   const { airdropData, loading: airdropLoading } = useAirdrop()
   const { user, loading: userLoading } = useUser()
+
+  // Handle referral code from URL
+  useEffect(() => {
+    if (referralCode && !user?.referralCode) {
+      // Store referral code in localStorage for when user connects wallet
+      localStorage.setItem('pendingReferralCode', referralCode)
+    }
+  }, [referralCode, user])
 
   // Handle loading state
   useEffect(() => {
