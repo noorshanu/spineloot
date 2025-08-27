@@ -9,7 +9,6 @@ import {
   Users, 
   Star,
   ExternalLink,
-
   Home,
   HelpCircle,
   Rocket
@@ -20,6 +19,8 @@ import { useWindowSize } from 'react-use'
 import DailySpinner from '../components/DailySpinner'
 import AstroLoader from '../components/AstroLoader'
 import Dashboard from '../components/Dashboard'
+import { useAirdrop } from '../contexts/AirdropContext'
+import { useUser } from '../contexts/UserContext'
 
 interface Task {
   id: string
@@ -130,96 +131,17 @@ const AirdropPage = () => {
   const [showDailySpinner, setShowDailySpinner] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
   
-  const [airdropData, setAirdropData] = useState<AirdropData>({
-    totalPoints: 0,
-    tasks: defaultTasks,
-    lastUpdated: new Date().toISOString()
-  })
+  const { airdropData, loading: airdropLoading } = useAirdrop()
+  const { user, loading: userLoading } = useUser()
 
-  // Load data from localStorage on component mount
+  // Handle loading state
   useEffect(() => {
-    const savedData = localStorage.getItem('spinloot-airdrop')
-    if (savedData) {
-      try {
-        const parsed = JSON.parse(savedData)
-        setAirdropData(parsed)
-      } catch (error) {
-        console.error('Error loading airdrop data:', error)
-      }
+    if (!userLoading && !airdropLoading) {
+      setIsLoading(false)
     }
-  }, [])
-
-  // Save data to localStorage whenever it changes
-  useEffect(() => {
-    localStorage.setItem('spinloot-airdrop', JSON.stringify(airdropData))
-  }, [airdropData])
-
-  const markActionClicked = (taskId: string) => {
-    setAirdropData(prev => {
-      const updatedTasks = prev.tasks.map(task => {
-        if (task.id === taskId) {
-          return {
-            ...task,
-            actionClicked: true
-          }
-        }
-        return task
-      })
-
-      return {
-        ...prev,
-        tasks: updatedTasks,
-        lastUpdated: new Date().toISOString()
-      }
-    })
-  }
-
-  const completeTask = (taskId: string) => {
-    setAirdropData(prev => {
-      const updatedTasks = prev.tasks.map(task => {
-        if (task.id === taskId) {
-          const newCompletions = task.completions + 1
-          const isCompleted = newCompletions >= task.maxCompletions
-          return {
-            ...task,
-            completions: newCompletions,
-            completed: isCompleted
-          }
-        }
-        return task
-      })
-
-      const totalPoints = updatedTasks.reduce((sum, task) => {
-        return sum + (task.points * task.completions)
-      }, 0)
-
-      return {
-        ...prev,
-        tasks: updatedTasks,
-        totalPoints,
-        lastUpdated: new Date().toISOString()
-      }
-    })
-
-    // Get points for the completed task
-    const task = airdropData.tasks.find(t => t.id === taskId)
-    const points = task?.points || 0
-    setCompletedTaskPoints(points)
-
-    // Show confetti celebration
-    setShowConfetti(true)
-    setTimeout(() => {
-      setShowConfetti(false)
-    }, 3000)
-  }
+  }, [userLoading, airdropLoading])
 
   const handleSpinnerReward = (points: number) => {
-    setAirdropData(prev => ({
-      ...prev,
-      totalPoints: prev.totalPoints + points,
-      lastUpdated: new Date().toISOString()
-    }))
-    
     setCompletedTaskPoints(points)
     setShowConfetti(true)
     setTimeout(() => {
@@ -237,11 +159,8 @@ const AirdropPage = () => {
 
   const resetProgress = () => {
     if (window.confirm('Are you sure you want to reset all progress? This cannot be undone.')) {
-      setAirdropData({
-        totalPoints: 0,
-        tasks: defaultTasks,
-        lastUpdated: new Date().toISOString()
-      })
+      // This would need to be implemented in the backend
+      console.log('Reset progress - not implemented yet')
     }
   }
 
@@ -302,12 +221,7 @@ const AirdropPage = () => {
         </div>
       )}
       
-      <Dashboard 
-        airdropData={airdropData} 
-        onSpinnerReward={handleSpinnerReward}
-        onTaskComplete={completeTask}
-        onActionClicked={markActionClicked}
-      />
+      <Dashboard />
     </>
   )
 }

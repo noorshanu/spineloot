@@ -1,6 +1,7 @@
 import { motion, AnimatePresence } from 'framer-motion'
 import { useState, useEffect } from 'react'
 import { RotateCcw, Gift, Star, Zap, Crown, Coins, Rocket } from 'lucide-react'
+import { useAirdrop } from '../contexts/AirdropContext'
 
 interface SpinnerReward {
   id: string
@@ -61,6 +62,7 @@ const spinnerRewards: SpinnerReward[] = [
 ]
 
 export default function DailySpinner({ onRewardEarned, isSpinning, onSpinComplete }: DailySpinnerProps) {
+  const { spinDailySpinner, spinnerStatus } = useAirdrop()
   const [canSpin, setCanSpin] = useState(true)
   const [lastSpinDate, setLastSpinDate] = useState<string | null>(null)
   const [spinResult, setSpinResult] = useState<SpinnerReward | null>(null)
@@ -69,15 +71,11 @@ export default function DailySpinner({ onRewardEarned, isSpinning, onSpinComplet
 
   // Check if user can spin today
   useEffect(() => {
-    const savedLastSpin = localStorage.getItem('spinloot-daily-spin')
-    if (savedLastSpin) {
-      setLastSpinDate(savedLastSpin)
-      const lastSpin = new Date(savedLastSpin)
-      const today = new Date()
-      const isSameDay = lastSpin.toDateString() === today.toDateString()
-      setCanSpin(!isSameDay)
+    if (spinnerStatus) {
+      setCanSpin(spinnerStatus.canSpin)
+      setLastSpinDate(spinnerStatus.lastSpin || null)
     }
-  }, [])
+  }, [spinnerStatus])
 
   const getRandomReward = (): SpinnerReward => {
     const random = Math.random()
@@ -94,42 +92,45 @@ export default function DailySpinner({ onRewardEarned, isSpinning, onSpinComplet
     return spinnerRewards[spinnerRewards.length - 1]
   }
 
-  const handleSpin = () => {
+  const handleSpin = async () => {
     if (!canSpin || internalSpinning) return
 
     // Start spinning animation
     setInternalSpinning(true)
     
-    // Calculate final position based on reward
-    const reward = getRandomReward()
-    const rewardIndex = spinnerRewards.findIndex(r => r.id === reward.id)
-    const segmentAngle = 360 / spinnerRewards.length
-    const targetAngle = 360 * 5 + (360 - (rewardIndex * segmentAngle + segmentAngle / 2))
-    
-    // Simulate spinning for 5-8 seconds
-    const spinDuration = 5000 + Math.random() * 3000 // 5-8 seconds
-    
-    setTimeout(() => {
-      // Show result after spin completes
-      setSpinResult(reward)
-      setShowResult(true)
-      setInternalSpinning(false)
+    try {
+      // Call API to spin
+      const result = await spinDailySpinner()
       
-      // Save spin date
-      const today = new Date().toISOString()
-      localStorage.setItem('spinloot-daily-spin', today)
-      setLastSpinDate(today)
-      setCanSpin(false)
-
-      // Call parent callback
-      onRewardEarned(reward.points)
+      // Find the reward based on API result
+      const reward = spinnerRewards.find(r => r.points === result.points) || spinnerRewards[0]
+      const rewardIndex = spinnerRewards.findIndex(r => r.id === reward.id)
+      const segmentAngle = 360 / spinnerRewards.length
+      const targetAngle = 360 * 5 + (360 - (rewardIndex * segmentAngle + segmentAngle / 2))
       
-      // Hide result after 3 seconds
+      // Simulate spinning for 5-8 seconds
+      const spinDuration = 5000 + Math.random() * 3000 // 5-8 seconds
+      
       setTimeout(() => {
-        setShowResult(false)
-        onSpinComplete()
-      }, 3000)
-    }, spinDuration)
+        // Show result after spin completes
+        setSpinResult(reward)
+        setShowResult(true)
+        setInternalSpinning(false)
+        setCanSpin(false)
+
+        // Call parent callback
+        onRewardEarned(reward.points)
+        
+        // Hide result after 3 seconds
+        setTimeout(() => {
+          setShowResult(false)
+          onSpinComplete()
+        }, 3000)
+      }, spinDuration)
+    } catch (error) {
+      console.error('Failed to spin:', error)
+      setInternalSpinning(false)
+    }
   }
 
   const getTimeUntilNextSpin = () => {

@@ -2,6 +2,7 @@ import React from 'react';
 import { useWallet } from '@solana/wallet-adapter-react';
 import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
 import { Wallet, LogOut, CheckCircle, Sparkles } from 'lucide-react';
+import { useUser } from '../contexts/UserContext';
 
 interface WalletConnectButtonProps {
   className?: string;
@@ -9,6 +10,7 @@ interface WalletConnectButtonProps {
 
 export const WalletConnectButton: React.FC<WalletConnectButtonProps> = ({ className = '' }) => {
   const { wallet, connected, disconnect } = useWallet();
+  const { user, disconnectWallet } = useUser();
 
   if (connected) {
     return (
@@ -31,7 +33,10 @@ export const WalletConnectButton: React.FC<WalletConnectButtonProps> = ({ classN
         
         {/* Disconnect Button */}
         <button
-          onClick={disconnect}
+          onClick={() => {
+            disconnect();
+            disconnectWallet();
+          }}
           className="px-5 py-3 rounded-2xl bg-gradient-to-br from-red-500/20 via-pink-500/15 to-rose-500/20 text-red-300 hover:from-red-500/30 hover:via-pink-500/25 hover:to-rose-500/30 border-2 border-red-400/30 hover:border-red-400/50 transition-all duration-500 text-sm font-bold flex items-center gap-3 shadow-xl shadow-red-500/20 hover:shadow-red-500/30 hover:scale-105 active:scale-95 backdrop-blur-sm"
         >
           <LogOut className="w-5 h-5" />

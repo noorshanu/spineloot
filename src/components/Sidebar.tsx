@@ -10,8 +10,7 @@ import {
   X,
   Home,
   UserPlus,
-  Gift,
-  Share2
+
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
@@ -52,12 +51,12 @@ export default function Sidebar({
       <motion.div
         initial={{ x: -300 }}
         animate={{ x: isSidebarOpen ? 0 : -300 }}
-        className={`fixed lg:relative z-40 w-64 bg-astro-panel/95 backdrop-blur-md border-r border-astro-primary/20 min-h-screen lg:min-h-0 transition-transform duration-300 ${
+        className={`fixed lg:relative z-40 w-64 bg-astro-panel/95 backdrop-blur-md border-r border-astro-primary/20 h-screen lg:h-auto lg:min-h-screen flex flex-col transition-transform duration-300 ${
           isSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
         }`}
       >
         {/* Logo */}
-        <div className="p-6 border-b border-astro-primary/20">
+        <div className="p-6 border-b border-astro-primary/20 flex-shrink-0">
           <div className="flex items-center gap-3">
             <img src="/logo.jpg" alt="SpinLoot" className="w-8 h-8 rounded-full" />
             <span className="text-astro-primary font-bold text-xl astro-text">SpinLoot</span>
@@ -65,7 +64,7 @@ export default function Sidebar({
         </div>
 
         {/* Navigation */}
-        <nav className="p-4 pt-8 lg:pt-4">
+        <nav className="p-4 pt-8 lg:pt-4 flex-1">
           <ul className="space-y-2">
             {navigationItems.map((item) => {
               const Icon = item.icon;
@@ -107,8 +106,9 @@ export default function Sidebar({
           </ul>
         </nav>
 
-        {/* Referral Section */}
-        <div className="px-4 mb-4">
+        {/* Bottom Section */}
+        <div className="p-4 space-y-4 flex-shrink-0">
+          {/* Referral Section */}
           <motion.button
             onClick={onReferralClick}
             className="w-full flex items-center gap-3 px-4 py-3 rounded-lg bg-gradient-to-r from-astro-accent to-astro-secondary text-white border border-astro-accent/30 hover:bg-astro-accent/20 transition-all"
@@ -118,10 +118,8 @@ export default function Sidebar({
             <UserPlus className="w-5 h-5" />
             <span className="font-semibold">Refer & Earn</span>
           </motion.button>
-        </div>
 
-        {/* Account Section */}
-        <div className="absolute bottom-6 left-4 right-4">
+          {/* Account Section */}
           <button className="w-full flex items-center gap-3 px-4 py-3 rounded-lg bg-astro-accent/20 text-astro-accent border border-astro-accent/30 hover:bg-astro-accent/30 transition-all">
             <Bot className="w-5 h-5" />
             <span className="font-semibold">Account</span>

@@ -17,26 +17,45 @@ import {
 import DailySpinner from './DailySpinner';
 import { WalletConnectButton } from './WalletConnectButton';
 import { Link } from 'react-router-dom';
+import { useAirdrop } from '../contexts/AirdropContext';
+import { useUser } from '../contexts/UserContext';
 
-interface DashboardProps {
-  airdropData: any;
-  onSpinnerReward: (points: number) => void;
-  onTaskComplete?: (taskId: string) => void;
-  onActionClicked?: (taskId: string) => void;
-}
-
-export default function Dashboard({ airdropData, onSpinnerReward, onTaskComplete, onActionClicked }: DashboardProps) {
+export default function Dashboard() {
+  const { airdropData, completeTask, spinDailySpinner, loading } = useAirdrop();
+  const { user } = useUser();
   const [activeTab, setActiveTab] = useState('dashboard');
   const [isSpinnerSpinning, setIsSpinnerSpinning] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [actionClickedTasks, setActionClickedTasks] = useState<Set<string>>(new Set());
 
 
-  const handleSpinnerReward = (points: number) => {
-    onSpinnerReward(points);
+  const handleSpinnerReward = async (points: number) => {
+    try {
+      const result = await spinDailySpinner();
+      // Refresh tasks after spinner to update points
+      await refreshTasks();
+      // The spinner component will handle the animation
+    } catch (error) {
+      console.error('Failed to spin:', error);
+    }
   };
 
   const handleSpinComplete = () => {
     setIsSpinnerSpinning(false);
+  };
+
+  const handleTaskComplete = async (taskId: string) => {
+    try {
+      await completeTask(taskId);
+      // Refresh tasks after completion
+      await refreshTasks();
+    } catch (error) {
+      console.error('Failed to complete task:', error);
+    }
+  };
+
+  const handleActionClicked = (taskId: string) => {
+    setActionClickedTasks(prev => new Set(prev).add(taskId));
   };
 
   const getTier = (points: number) => {
@@ -96,10 +115,10 @@ export default function Dashboard({ airdropData, onSpinnerReward, onTaskComplete
           <div className="flex items-center justify-center gap-3 mb-4">
             <Trophy className="w-6 h-6 sm:w-8 sm:h-8 text-astro-accent" />
             <div className="text-2xl sm:text-3xl font-bold text-astro-primary astro-text">
-              {airdropData.totalPoints}
+              {airdropData.totalPoints || 0}
             </div>
           </div>
-          <div className="text-white/70 font-semibold text-sm sm:text-base">All-Time Prisma Points</div>
+          <div className="text-white/70 font-semibold text-sm sm:text-base">All-Time Points</div>
         </motion.div>
 
         <motion.div
@@ -157,7 +176,7 @@ export default function Dashboard({ airdropData, onSpinnerReward, onTaskComplete
             <div className="w-full sm:w-32 h-3 bg-white/10 rounded-full overflow-hidden">
               <div 
                 className="h-full bg-gradient-to-r from-astro-primary to-astro-secondary rounded-full"
-                style={{ width: `${Math.min((airdropData.totalPoints / 30) * 100, 100)}%` }}
+                style={{ width: `${Math.min((airdropData.totalPoints / 60) * 100, 100)}%` }}
               />
             </div>
           </div>
@@ -178,7 +197,9 @@ export default function Dashboard({ airdropData, onSpinnerReward, onTaskComplete
       >
         <h2 className="text-2xl sm:text-3xl font-bold text-astro-primary mb-6 astro-text">Social Tasks</h2>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
-          {airdropData.tasks.map((task: any, index: number) => (
+          {airdropData.tasks.map((task: any, index: number) => {
+            const actionClicked = actionClickedTasks.has(task.taskId);
+            return (
             <motion.div
               key={task.id}
               initial={{ opacity: 0, y: 20 }}
@@ -210,33 +231,34 @@ export default function Dashboard({ airdropData, onSpinnerReward, onTaskComplete
                     href={task.link}
                     target="_blank"
                     rel="noopener noreferrer"
-                    onClick={() => onActionClicked?.(task.id)}
+                    onClick={() => handleActionClicked(task.taskId)}
                     className="flex-1 px-4 py-2 rounded-lg bg-astro-accent/20 text-astro-accent text-center text-sm font-semibold hover:bg-astro-accent/30 transition-all"
                   >
                     {task.action}
                   </a>
                 )}
                 <button
-                  onClick={() => onTaskComplete?.(task.id)}
-                  disabled={task.completed || !task.actionClicked}
+                  onClick={() => handleTaskComplete(task.taskId)}
+                  disabled={task.completed || !actionClicked}
                   className={`flex-1 px-4 py-2 rounded-lg text-sm font-semibold transition-all ${
                     task.completed
                       ? 'bg-astro-success/20 text-astro-success cursor-not-allowed'
-                      : !task.actionClicked
+                      : !actionClicked
                       ? 'bg-gray-500/20 text-gray-400 cursor-not-allowed'
                       : 'bg-astro-primary/20 text-astro-primary hover:bg-astro-primary/30'
                   }`}
                 >
                   {task.completed 
                     ? 'Completed' 
-                    : !task.actionClicked 
+                    : !actionClicked 
                     ? 'Complete Action First' 
                     : 'Mark Complete'
                   }
                 </button>
               </div>
             </motion.div>
-          ))}
+          );
+        })}
         </div>
       </motion.div>
     </div>
@@ -429,12 +451,20 @@ export default function Dashboard({ airdropData, onSpinnerReward, onTaskComplete
         <motion.div
           initial={{ x: -300 }}
           animate={{ x: 0 }}
-          className={`fixed lg:relative z-40 w-64 bg-astro-panel/95 backdrop-blur-md border-r border-astro-primary/20 min-h-screen lg:min-h-0 transition-transform duration-300 ${
+          className={`fixed lg:relative z-40 w-64 bg-astro-panel/95 backdrop-blur-md border-r border-astro-primary/20 h-screen lg:h-auto lg:min-h-screen flex flex-col transition-transform duration-300 ${
             isSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
           }`}
         >
+          {/* Logo */}
+          {/* <div className="p-6 border-b border-astro-primary/20 flex-shrink-0">
+            <div className="flex items-center gap-3">
+              <img src="/logo.jpg" alt="SpinLoot" className="w-8 h-8 rounded-full" />
+              <span className="text-astro-primary font-bold text-xl astro-text">SpinLoot</span>
+            </div>
+          </div> */}
+
           {/* Navigation */}
-          <nav className="p-4 pt-8 lg:pt-4">
+          <nav className="p-4 pt-8 lg:pt-4 flex-1">
             <ul className="space-y-2">
               {[
                 { id: 'home', label: 'Home', icon: Home, isLink: true, path: '/' },
@@ -483,10 +513,9 @@ export default function Dashboard({ airdropData, onSpinnerReward, onTaskComplete
             </ul>
           </nav>
 
-
-
-          {/* Account Section */}
-          <div className="absolute bottom-6 left-4 right-4">
+          {/* Bottom Section */}
+          <div className="p-4 space-y-4 flex-shrink-0">
+            {/* Account Section */}
             <button className="w-full flex items-center gap-3 px-4 py-3 rounded-lg bg-astro-accent/20 text-astro-accent border border-astro-accent/30 hover:bg-astro-accent/30 transition-all">
               <Bot className="w-5 h-5" />
               <span className="font-semibold">Account</span>
@@ -503,7 +532,7 @@ export default function Dashboard({ airdropData, onSpinnerReward, onTaskComplete
         )}
 
         {/* Main Content */}
-        <div className="flex-1 p-4 sm:p-6 lg:p-8 lg:ml-0">
+        <div className="flex-1 p-4 sm:p-6 lg:p-8 lg:ml-0 min-h-screen lg:min-h-0">
           <div className="max-w-6xl mx-auto">
             {renderContent()}
           </div>

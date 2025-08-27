@@ -17,13 +17,27 @@ import {
   Award
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import ReferredUsersList from '../components/ReferredUsersList';
+import { useUser } from '../contexts/UserContext';
 
 export default function ReferralPage() {
+  const { user } = useUser();
   const [copied, setCopied] = useState(false);
 
   const handleCopy = async () => {
     try {
-      await navigator.clipboard.writeText('https://spinloot.com/ref/SPINLOOT2024');
+      const referralLink = `https://spinloot.com/ref/${user?.referralCode || 'SPINLOOT2024'}`;
+      await navigator.clipboard.writeText(referralLink);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (err) {
+      console.error('Failed to copy: ', err);
+    }
+  };
+
+  const handleCopyCode = async () => {
+    try {
+      await navigator.clipboard.writeText(user?.referralCode || '');
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch (err) {
@@ -39,19 +53,13 @@ export default function ReferralPage() {
   ];
 
   const referralStats = [
-    { label: 'Total Referrals', value: '24', icon: Users, color: 'text-astro-primary' },
-    { label: 'Earnings', value: '120 SPIN', icon: Gift, color: 'text-astro-accent' },
-    { label: 'Active Referrals', value: '18', icon: Star, color: 'text-astro-secondary' },
-    { label: 'This Month', value: '8', icon: TrendingUp, color: 'text-astro-success' },
+    { label: 'Total Referrals', value: user?.referralCount?.toString() || '0', icon: Users, color: 'text-astro-primary' },
+    { label: 'Referral Earnings', value: `${user?.totalReferralEarnings || 0} Points`, icon: Gift, color: 'text-astro-accent' },
+    { label: 'Current Tier', value: user?.currentTier || 'Newcomer', icon: Star, color: 'text-astro-secondary' },
+    { label: 'Total Points', value: `${user?.totalPoints || 0}`, icon: TrendingUp, color: 'text-astro-success' },
   ];
 
-  const referralHistory = [
-    { name: 'Alex Johnson', date: '2024-01-15', status: 'Active', reward: '50 SPIN' },
-    { name: 'Sarah Chen', date: '2024-01-14', status: 'Active', reward: '50 SPIN' },
-    { name: 'Mike Davis', date: '2024-01-13', status: 'Pending', reward: '50 SPIN' },
-    { name: 'Emma Wilson', date: '2024-01-12', status: 'Active', reward: '50 SPIN' },
-    { name: 'David Brown', date: '2024-01-11', status: 'Active', reward: '50 SPIN' },
-  ];
+  // Remove hardcoded referral history since we'll use real data from ReferredUsersList component
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-astro-bg via-astro-panel to-astro-dark">
@@ -120,10 +128,10 @@ export default function ReferralPage() {
                     <div className="text-sm text-white/70 mb-2">Referral Code</div>
                     <div className="flex items-center gap-3 p-4 bg-astro-primary/10 rounded-lg border border-astro-primary/20">
                       <div className="flex-1">
-                        <div className="text-2xl font-mono font-bold text-astro-primary">SPINLOOT2024</div>
+                        <div className="text-2xl font-mono font-bold text-astro-primary">{user?.referralCode || 'Loading...'}</div>
                       </div>
                       <button
-                        onClick={handleCopy}
+                        onClick={handleCopyCode}
                         className="px-4 py-2 rounded-lg bg-astro-accent/20 text-astro-accent hover:bg-astro-accent/30 transition-all flex items-center gap-2"
                       >
                         {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
@@ -137,7 +145,9 @@ export default function ReferralPage() {
                     <div className="text-sm text-white/70 mb-2">Referral Link</div>
                     <div className="flex items-center gap-3 p-4 bg-astro-secondary/10 rounded-lg border border-astro-secondary/20">
                       <div className="flex-1">
-                        <div className="text-sm font-mono text-astro-secondary truncate">https://spinloot.com/ref/SPINLOOT2024</div>
+                        <div className="text-sm font-mono text-astro-secondary truncate">
+                          {user?.referralCode ? `https://spinloot.com/ref/${user.referralCode}` : 'Loading...'}
+                        </div>
                       </div>
                       <button
                         onClick={handleCopy}
@@ -189,11 +199,11 @@ export default function ReferralPage() {
                 <div className="space-y-4 text-sm text-white/80">
                   <div className="flex items-center gap-3">
                     <div className="w-2 h-2 bg-astro-accent rounded-full" />
-                    <span>Earn <strong className="text-astro-accent">50 SPIN</strong> for each successful referral</span>
+                    <span>Earn <strong className="text-astro-accent">100 Points</strong> for each successful referral</span>
                   </div>
                   <div className="flex items-center gap-3">
                     <div className="w-2 h-2 bg-astro-accent rounded-full" />
-                    <span>Your friends get <strong className="text-astro-secondary">25 SPIN</strong> bonus on signup</span>
+                    <span>Your friends get <strong className="text-astro-secondary">50 Points</strong> bonus on signup</span>
                   </div>
                   <div className="flex items-center gap-3">
                     <div className="w-2 h-2 bg-astro-accent rounded-full" />
@@ -201,39 +211,15 @@ export default function ReferralPage() {
                   </div>
                   <div className="flex items-center gap-3">
                     <div className="w-2 h-2 bg-astro-accent rounded-full" />
-                    <span>Earn <strong className="text-astro-success">100 SPIN</strong> for 10+ referrals</span>
+                    <span>Earn <strong className="text-astro-success">200 Points</strong> for 10+ referrals</span>
                   </div>
                 </div>
               </div>
 
-              {/* Referral History */}
-              <div className="astro-glass rounded-2xl p-6">
-                <h2 className="text-xl font-bold text-astro-primary mb-6">Recent Referrals</h2>
-                <div className="space-y-3">
-                  {referralHistory.map((referral, index) => (
-                    <motion.div
-                      key={index}
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: index * 0.1 }}
-                      className="flex items-center justify-between p-3 bg-white/5 rounded-lg border border-white/10"
-                    >
-                      <div>
-                        <div className="font-semibold text-white">{referral.name}</div>
-                        <div className="text-sm text-white/60">{referral.date}</div>
-                      </div>
-                      <div className="text-right">
-                        <div className={`text-sm font-semibold ${
-                          referral.status === 'Active' ? 'text-astro-success' : 'text-astro-warning'
-                        }`}>
-                          {referral.status}
-                        </div>
-                        <div className="text-sm text-astro-accent">{referral.reward}</div>
-                      </div>
-                    </motion.div>
-                  ))}
-                </div>
-              </div>
+              {/* Referral History - Removed since we have ReferredUsersList component */}
+
+              {/* Referred Users List */}
+              <ReferredUsersList />
             </motion.div>
           </div>
         </div>
