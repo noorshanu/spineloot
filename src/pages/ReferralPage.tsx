@@ -25,6 +25,7 @@ import {
 import { Link, useNavigate } from 'react-router-dom';
 import ReferredUsersList from '../components/ReferredUsersList';
 import { useUser } from '../contexts/UserContext';
+import { WalletConnectButton } from '../components/WalletConnectButton';
 import apiService from '../services/api';
 
 interface ReferralData {
@@ -144,6 +145,12 @@ export default function ReferralPage() {
       return;
     }
 
+    // Check if user already has a referral code
+    if (user?.referredBy) {
+      setValidationMessage('❌ You already have a referral code. Cannot add another one.');
+      return;
+    }
+
     try {
       setValidatingCode(true);
       setValidationMessage('');
@@ -246,6 +253,7 @@ export default function ReferralPage() {
             <div className="hidden sm:block">
               <span className="text-white/70">Refer & Earn</span>
             </div>
+            <WalletConnectButton />
           </div>
         </div>
       </div>
@@ -523,6 +531,22 @@ export default function ReferralPage() {
                     </div>
                   </div>
 
+                  {/* Referred By Information */}
+                  {user?.referredBy && (
+                    <div className="mt-6 p-4 bg-green-500/10 border border-green-500/30 rounded-lg">
+                      <div className="flex items-center gap-2 mb-2">
+                        <Check className="w-5 h-5 text-green-400" />
+                        <h3 className="text-lg font-semibold text-green-400">Referred By</h3>
+                      </div>
+                      <p className="text-green-300 text-sm">
+                        You were referred by: <span className="font-mono font-bold">{user.referredBy}</span>
+                      </p>
+                      <p className="text-green-300/70 text-xs mt-1">
+                        You received 50 bonus points for using a referral code!
+                      </p>
+                    </div>
+                  )}
+
                   {/* Manual Referral Code Input - Only show if user didn't come through referral */}
                   {!user?.referredBy && (
                     <div className="mt-6">
@@ -568,15 +592,7 @@ export default function ReferralPage() {
                                 'Add'
                               )}
                             </button>
-                            {manualReferralCode && (
-                              <button
-                                onClick={handleClearReferralCode}
-                                className="px-4 py-2 bg-red-500/20 text-red-400 rounded-lg hover:bg-red-500/30 transition-all"
-                                title="Clear referral code"
-                              >
-                                Clear
-                              </button>
-                            )}
+
                           </div>
                           
                           {validationMessage && (
@@ -596,14 +612,15 @@ export default function ReferralPage() {
                           )}
                           
                           <div className="mt-3 text-xs text-white/60">
-                            💡 Tip: Enter your friend's referral code here to validate it. If valid, it will be automatically used when you connect your wallet.
+                            ⚠️ Important: Once you add a referral code, it cannot be changed. Make sure you enter the correct code!
                           </div>
                         </div>
                       </motion.div>
-                    )}
-                  </div>
+                                         )}
+                   </div>
+                   )}
 
-                  {/* Share Buttons */}
+                   {/* Share Buttons */}
                   <div className="mt-6">
                     <h3 className="text-lg font-semibold text-astro-secondary mb-4">Share on Social Media</h3>
                     <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">

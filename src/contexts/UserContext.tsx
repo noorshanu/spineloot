@@ -14,6 +14,7 @@ interface User {
   referralCode: string;
   referralCount: number;
   totalReferralEarnings: number;
+  referredBy?: string;
   isActive: boolean;
   lastLogin?: string;
   createdAt?: string;

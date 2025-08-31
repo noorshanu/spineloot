@@ -458,12 +458,12 @@ export default function Dashboard() {
         {/* Desktop Sidebar - Always visible on lg+ screens */}
         <div className="hidden lg:block w-64 bg-astro-panel/95 backdrop-blur-md border-r border-astro-primary/20 h-screen flex flex-col">
           {/* Logo */}
-          <div className="p-6 border-b border-astro-primary/20 flex-shrink-0">
+          {/* <div className="p-6 border-b border-astro-primary/20 flex-shrink-0">
             <div className="flex items-center gap-3">
               <img src="/logo.jpg" alt="SpinLoot" className="w-8 h-8 rounded-full" />
               <span className="text-astro-primary font-bold text-xl astro-text">SpinLoot</span>
             </div>
-          </div>
+          </div> */}
 
           {/* Navigation */}
           <nav className="p-4 flex-1">
