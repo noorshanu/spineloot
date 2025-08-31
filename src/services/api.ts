@@ -1,5 +1,93 @@
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:4000/api';
 
+// Define proper types for API responses
+interface Task {
+  taskId: string;
+  title: string;
+  description: string;
+  points: number;
+  maxCompletions: number;
+  type: 'once' | 'daily' | 'limited';
+  action: string;
+  link?: string;
+}
+
+interface TaskProgress {
+  taskId: string;
+  completions: number;
+  completed: boolean;
+  lastCompleted?: string;
+  canComplete: boolean;
+}
+
+interface TaskProgressResponse {
+  taskProgress: TaskProgress[];
+  totalPoints: number;
+  currentTier: string;
+}
+
+interface TasksResponse {
+  tasks: Task[];
+}
+
+interface TaskCompletionResponse {
+  totalPoints: number;
+  taskCompletion: {
+    completions: number;
+    completed: boolean;
+  };
+}
+
+interface SpinnerResponse {
+  spinResult: {
+    points: number;
+    description: string;
+  };
+  totalPoints: number;
+  spinsToday: number;
+}
+
+interface SpinnerStatus {
+  canSpin: boolean;
+  spinsToday: number;
+  lastSpinTime?: string;
+}
+
+interface User {
+  id: string;
+  walletAddress: string;
+  displayName?: string;
+  email?: string;
+  avatar?: string;
+  role: string;
+  totalPoints: number;
+  currentTier: string;
+  referralCode: string;
+  referralCount: number;
+  totalReferralEarnings: number;
+  isActive: boolean;
+  lastLogin?: string;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+interface AuthResponse {
+  user: User;
+  token: string;
+}
+
+interface ReferredUsersData {
+  referredUsers: Array<{
+    id: string;
+    walletAddress: string;
+    displayName?: string;
+    joinedAt: string;
+    earnedPoints: number;
+  }>;
+  totalReferred: number;
+  totalEarnings: number;
+}
+
 interface ApiResponse<T = any> {
   status: 'success' | 'error';
   message?: string;
@@ -88,7 +176,7 @@ class ApiService {
 
   // Authentication
   async connectWallet(walletAddress: string, referralCode?: string, displayName?: string, email?: string) {
-    return this.request('/auth/connect-wallet', {
+    return this.request<AuthResponse>('/auth/connect-wallet', {
       method: 'POST',
       body: JSON.stringify({
         walletAddress,
@@ -100,7 +188,7 @@ class ApiService {
   }
 
   async getProfile() {
-    return this.request('/auth/profile');
+    return this.request<User>('/auth/profile');
   }
 
   async updateProfile(updates: { displayName?: string; email?: string; avatar?: string }) {
@@ -120,21 +208,21 @@ class ApiService {
 
   // Tasks
   async getTasks() {
-    return this.request('/tasks');
+    return this.request<TasksResponse>('/tasks');
   }
 
   async getTaskById(taskId: string) {
-    return this.request(`/tasks/${taskId}`);
+    return this.request<Task>(`/tasks/${taskId}`);
   }
 
   async completeTask(taskId: string) {
-    return this.request(`/tasks/${taskId}/complete`, {
+    return this.request<TaskCompletionResponse>(`/tasks/${taskId}/complete`, {
       method: 'POST',
     });
   }
 
   async getTaskProgress() {
-    return this.request('/tasks/progress');
+    return this.request<TaskProgressResponse>('/tasks/progress');
   }
 
   async getTaskStats() {
@@ -143,7 +231,12 @@ class ApiService {
 
   // Referrals
   async getReferralInfo() {
-    return this.request('/referrals/info');
+    return this.request<{
+      referralCode: string;
+      referralCount: number;
+      totalReferralEarnings: number;
+      referralLink: string;
+    }>('/referrals/info');
   }
 
   async getReferralsList(page = 1, limit = 20, status?: string) {
@@ -175,18 +268,18 @@ class ApiService {
   }
 
   async getReferredUsers() {
-    return this.request('/referrals/referred-users');
+    return this.request<ReferredUsersData>('/referrals/referred-users');
   }
 
   // Daily Spinner
   async spinDailySpinner() {
-    return this.request('/spinner/spin', {
+    return this.request<SpinnerResponse>('/spinner/spin', {
       method: 'POST',
     });
   }
 
   async getSpinnerStatus() {
-    return this.request('/spinner/status');
+    return this.request<SpinnerStatus>('/spinner/status');
   }
 
   async getSpinnerHistory(page = 1, limit = 20) {

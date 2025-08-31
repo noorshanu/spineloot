@@ -90,13 +90,13 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
 
       const response = await apiService.connectWallet(
         walletAddress,
-        finalReferralCode,
+        finalReferralCode || undefined,
         undefined, // displayName
         undefined  // email
       );
 
       if (response.status === 'success' && response.data) {
-        const { user: userData, token } = response.data;
+        const { user: userData, token } = response.data!;
         apiService.setToken(token);
         setUser(userData);
         
@@ -133,7 +133,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     try {
       const response = await apiService.updateProfile(updates);
       if (response.status === 'success' && response.data) {
-        setUser(response.data.user);
+        setUser(response.data as User);
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to update profile');
@@ -151,7 +151,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     try {
       const response = await apiService.getProfile();
       if (response.status === 'success' && response.data) {
-        setUser(response.data.user);
+        setUser(response.data);
       } else {
         // Token might be invalid, clear it
         apiService.clearToken();

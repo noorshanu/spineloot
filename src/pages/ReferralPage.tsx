@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { 
   UserPlus,
@@ -25,6 +25,19 @@ import {
 import { Link, useNavigate } from 'react-router-dom';
 import ReferredUsersList from '../components/ReferredUsersList';
 import { useUser } from '../contexts/UserContext';
+import apiService from '../services/api';
+
+interface ReferralData {
+  referralCode: string;
+  referralCount: number;
+  totalReferralEarnings: number;
+  referralLink: string;
+}
+
+interface ReferralStats {
+  totalReferred: number;
+  totalEarnings: number;
+}
 
 export default function ReferralPage() {
   const { user } = useUser();
@@ -32,15 +45,57 @@ export default function ReferralPage() {
   const [copied, setCopied] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [activeTab, setActiveTab] = useState('referral');
+  const [referralData, setReferralData] = useState<ReferralData | null>(null);
+  const [referralStats, setReferralStats] = useState<ReferralStats | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [manualReferralCode, setManualReferralCode] = useState('');
+  const [showManualInput, setShowManualInput] = useState(false);
+  const [validatingCode, setValidatingCode] = useState(false);
+  const [validationMessage, setValidationMessage] = useState('');
   
   // Dynamic URL generation
   const baseUrl = window.location.origin;
 
+  // Fetch referral data
+  useEffect(() => {
+    if (user) {
+      fetchReferralData();
+    }
+  }, [user]);
+
+  const fetchReferralData = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+
+      // Fetch referral info and stats in parallel
+      const [referralInfoResponse, referredUsersResponse] = await Promise.all([
+        apiService.getReferralInfo(),
+        apiService.getReferredUsers(),
+      ]);
+
+      if (referralInfoResponse.status === 'success' && referralInfoResponse.data) {
+        setReferralData(referralInfoResponse.data as ReferralData);
+      }
+
+      if (referredUsersResponse.status === 'success' && referredUsersResponse.data) {
+        setReferralStats({
+          totalReferred: referredUsersResponse.data.totalReferred,
+          totalEarnings: referredUsersResponse.data.totalEarnings,
+        });
+      }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to fetch referral data');
+      console.error('Referral data fetch error:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handleCopy = async () => {
     try {
-      const referralLink = user?.referralCode 
-        ? `${baseUrl}/ref/${user.referralCode}`
-        : `${baseUrl}/connect-wallet`;
+      const referralLink = referralData?.referralLink || `${baseUrl}/ref/${user?.referralCode || ''}`;
       await navigator.clipboard.writeText(referralLink);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
@@ -51,7 +106,8 @@ export default function ReferralPage() {
 
   const handleCopyCode = async () => {
     try {
-      await navigator.clipboard.writeText(user?.referralCode || '');
+      const code = referralData?.referralCode || user?.referralCode || '';
+      await navigator.clipboard.writeText(code);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch (err) {
@@ -80,11 +136,31 @@ export default function ReferralPage() {
     { name: 'WhatsApp', icon: MessageCircle, color: 'text-green-500', bg: 'bg-green-500/10' },
   ];
 
-  const referralStats = [
-    { label: 'Total Referrals', value: user?.referralCount?.toString() || '0', icon: Users, color: 'text-astro-primary' },
-    { label: 'Referral Earnings', value: `${user?.totalReferralEarnings || 0} Points`, icon: Gift, color: 'text-astro-accent' },
-    { label: 'Current Tier', value: user?.currentTier || 'Newcomer', icon: Star, color: 'text-astro-secondary' },
-    { label: 'Total Points', value: `${user?.totalPoints || 0}`, icon: TrendingUp, color: 'text-astro-success' },
+  const statsCards = [
+    { 
+      label: 'Total Referrals', 
+      value: referralStats?.totalReferred?.toString() || '0', 
+      icon: Users, 
+      color: 'text-astro-primary' 
+    },
+    { 
+      label: 'Referral Earnings', 
+      value: `${referralStats?.totalEarnings || 0} Points`, 
+      icon: Gift, 
+      color: 'text-astro-accent' 
+    },
+    { 
+      label: 'Current Tier', 
+      value: user?.currentTier || 'Newcomer', 
+      icon: Star, 
+      color: 'text-astro-secondary' 
+    },
+    { 
+      label: 'Total Points', 
+      value: `${user?.totalPoints || 0}`, 
+      icon: TrendingUp, 
+      color: 'text-astro-success' 
+    },
   ];
 
   return (
@@ -306,9 +382,26 @@ export default function ReferralPage() {
               <p className="text-white/70 text-lg">Invite friends and earn rewards together!</p>
             </div>
 
+            {/* Error Display */}
+            {error && (
+              <motion.div
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="mb-6 p-4 bg-red-500/20 border border-red-500/30 rounded-lg"
+              >
+                <div className="text-red-400 font-semibold">Error: {error}</div>
+                <button
+                  onClick={fetchReferralData}
+                  className="mt-2 px-4 py-2 bg-red-500/20 text-red-400 rounded-lg hover:bg-red-500/30 transition-colors"
+                >
+                  Retry
+                </button>
+              </motion.div>
+            )}
+
             {/* Referral Stats */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-              {referralStats.map((stat, index) => {
+              {statsCards.map((stat, index) => {
                 const Icon = stat.icon;
                 return (
                   <motion.div
@@ -320,7 +413,9 @@ export default function ReferralPage() {
                     whileHover={{ scale: 1.05, y: -5 }}
                   >
                     <Icon className={`w-8 h-8 mx-auto mb-3 ${stat.color}`} />
-                    <div className="text-2xl font-bold text-astro-primary">{stat.value}</div>
+                    <div className="text-2xl font-bold text-astro-primary">
+                      {loading ? '...' : stat.value}
+                    </div>
                     <div className="text-white/70 font-semibold">{stat.label}</div>
                   </motion.div>
                 );
@@ -346,11 +441,14 @@ export default function ReferralPage() {
                       <div className="text-sm text-white/70 mb-2">Referral Code</div>
                       <div className="flex items-center gap-3 p-4 bg-astro-primary/10 rounded-lg border border-astro-primary/20">
                         <div className="flex-1">
-                          <div className="text-2xl font-mono font-bold text-astro-primary">{user?.referralCode || 'Loading...'}</div>
+                          <div className="text-2xl font-mono font-bold text-astro-primary">
+                            {loading ? 'Loading...' : (referralData?.referralCode || user?.referralCode || 'Not available')}
+                          </div>
                         </div>
                         <button
                           onClick={handleCopyCode}
-                          className="px-4 py-2 rounded-lg bg-astro-accent/20 text-astro-accent hover:bg-astro-accent/30 transition-all flex items-center gap-2"
+                          disabled={loading}
+                          className="px-4 py-2 rounded-lg bg-astro-accent/20 text-astro-accent hover:bg-astro-accent/30 transition-all flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                         >
                           {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
                           {copied ? 'Copied!' : 'Copy'}
@@ -364,12 +462,13 @@ export default function ReferralPage() {
                       <div className="flex items-center gap-3 p-4 bg-astro-secondary/10 rounded-lg border border-astro-secondary/20">
                         <div className="flex-1">
                           <div className="text-sm font-mono text-astro-secondary truncate">
-                            {user?.referralCode ? `${baseUrl}/ref/${user.referralCode}` : 'Loading...'}
+                            {loading ? 'Loading...' : (referralData?.referralLink || `${baseUrl}/ref/${user?.referralCode || ''}`)}
                           </div>
                         </div>
                         <button
                           onClick={handleCopy}
-                          className="px-4 py-2 rounded-lg bg-astro-secondary/20 text-astro-secondary hover:bg-astro-secondary/30 transition-all flex items-center gap-2"
+                          disabled={loading}
+                          className="px-4 py-2 rounded-lg bg-astro-secondary/20 text-astro-secondary hover:bg-astro-secondary/30 transition-all flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                         >
                           {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
                           {copied ? 'Copied!' : 'Copy'}

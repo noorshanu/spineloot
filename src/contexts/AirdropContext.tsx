@@ -97,7 +97,7 @@ export const AirdropProvider: React.FC<AirdropProviderProps> = ({ children }) =>
         apiService.getTaskProgress(),
       ]);
 
-      if (tasksResponse.status === 'success' && progressResponse.status === 'success') {
+      if (tasksResponse.status === 'success' && progressResponse.status === 'success' && tasksResponse.data && progressResponse.data) {
         const tasks = tasksResponse.data.tasks;
         const progress = progressResponse.data.taskProgress;
 
@@ -116,8 +116,8 @@ export const AirdropProvider: React.FC<AirdropProviderProps> = ({ children }) =>
         });
 
         setAirdropData({
-          totalPoints: progressResponse.data.totalPoints,
-          currentTier: progressResponse.data.currentTier,
+          totalPoints: progressResponse.data!.totalPoints,
+          currentTier: progressResponse.data!.currentTier,
           tasks: mergedTasks,
           lastUpdated: new Date().toISOString(),
         });
@@ -141,13 +141,13 @@ export const AirdropProvider: React.FC<AirdropProviderProps> = ({ children }) =>
         // Update the specific task
         setAirdropData(prev => ({
           ...prev,
-          totalPoints: response.data.totalPoints,
+          totalPoints: response.data!.totalPoints,
           tasks: prev.tasks.map(task => {
             if (task.taskId === taskId) {
               return {
                 ...task,
-                completions: response.data.taskCompletion.completions,
-                completed: response.data.taskCompletion.completed,
+                completions: response.data!.taskCompletion.completions,
+                completed: response.data!.taskCompletion.completed,
                 lastCompleted: new Date().toISOString(),
                 canComplete: false,
               };
@@ -188,7 +188,7 @@ export const AirdropProvider: React.FC<AirdropProviderProps> = ({ children }) =>
         setSpinnerStatus(prev => ({
           ...prev,
           spinsToday,
-          canSpin: spinsToday < 3,
+          lastSpinTime: new Date().toISOString(),
         }));
 
         return {
@@ -211,7 +211,12 @@ export const AirdropProvider: React.FC<AirdropProviderProps> = ({ children }) =>
     try {
       const response = await apiService.getSpinnerStatus();
       if (response.status === 'success' && response.data) {
-        setSpinnerStatus(response.data);
+        setSpinnerStatus(prev => ({
+          ...prev,
+          spinsToday: response.data!.spinsToday,
+          canSpin: response.data!.canSpin,
+          lastSpin: response.data!.lastSpinTime,
+        }));
       }
     } catch (err) {
       console.error('Failed to refresh spinner status:', err);

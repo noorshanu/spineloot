@@ -29,12 +29,14 @@ const ReferredUsersList = () => {
   const fetchReferredUsers = async () => {
     try {
       setLoading(true);
+      setError(null);
       const response = await apiService.getReferredUsers();
       if (response.status === 'success' && response.data) {
         setData(response.data);
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to fetch referred users');
+      console.error('ReferredUsersList fetch error:', err);
     } finally {
       setLoading(false);
     }
