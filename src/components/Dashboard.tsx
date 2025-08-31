@@ -28,6 +28,7 @@ export default function Dashboard() {
   const [isSpinnerSpinning, setIsSpinnerSpinning] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [actionClickedTasks, setActionClickedTasks] = useState<Set<string>>(new Set());
+  const [whitepaperActiveTab, setWhitepaperActiveTab] = useState('overview');
 
   // Handle navigation state from other pages
   useEffect(() => {
@@ -305,8 +306,6 @@ export default function Dashboard() {
   );
 
   const renderWhitepaper = () => {
-    const [activeTab, setActiveTab] = useState('overview');
-
     const tabs = [
       { id: 'overview', label: 'Overview', icon: '📋' },
       { id: 'vision', label: 'Vision', icon: '🎯' },
@@ -317,7 +316,7 @@ export default function Dashboard() {
     ];
 
     const renderTabContent = () => {
-      switch (activeTab) {
+      switch (whitepaperActiveTab) {
         case 'overview':
           return (
             <div className="space-y-6">
@@ -606,15 +605,15 @@ export default function Dashboard() {
           {/* Tabs */}
           <div className="mb-8">
             <div className="flex flex-wrap gap-2 sm:gap-3">
-              {tabs.map((tab) => (
-                <motion.button
-                  key={tab.id}
-                  onClick={() => setActiveTab(tab.id)}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
-                    activeTab === tab.id
-                      ? 'bg-astro-primary text-white shadow-lg'
-                      : 'bg-astro-primary/10 text-astro-primary hover:bg-astro-primary/20'
-                  }`}
+                             {tabs.map((tab) => (
+                 <motion.button
+                   key={tab.id}
+                   onClick={() => setWhitepaperActiveTab(tab.id)}
+                   className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
+                     whitepaperActiveTab === tab.id
+                       ? 'bg-astro-primary text-white shadow-lg'
+                       : 'bg-astro-primary/10 text-astro-primary hover:bg-astro-primary/20'
+                   }`}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
@@ -627,7 +626,7 @@ export default function Dashboard() {
 
           {/* Tab Content */}
           <motion.div
-            key={activeTab}
+            key={whitepaperActiveTab}
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.3 }}
@@ -641,8 +640,8 @@ export default function Dashboard() {
             <motion.button
               onClick={() => {
                 const link = document.createElement('a');
-                link.href = '/SpinLoot_Whitepaper.pdf';
-                link.download = 'SpinLoot_Whitepaper_v1.0.pdf';
+                link.href = '/tokenomics.pdf';
+                link.download = 'tokenomics.pdf';
                 document.body.appendChild(link);
                 link.click();
                 document.body.removeChild(link);
@@ -654,7 +653,7 @@ export default function Dashboard() {
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
               </svg>
-              Download Full Whitepaper PDF
+              Download Tokenomics
             </motion.button>
           </div>
         </motion.div>
