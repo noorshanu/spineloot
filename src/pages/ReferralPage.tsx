@@ -129,24 +129,95 @@ export default function ReferralPage() {
       </div>
 
       <div className="flex">
-        {/* Mobile Overlay - Must be before sidebar for proper z-index */}
+        {/* Desktop Sidebar - Always visible on lg+ screens */}
+        <div className="hidden lg:block w-64 bg-astro-panel/95 backdrop-blur-md border-r border-astro-primary/20 h-screen flex flex-col">
+          {/* Navigation */}
+          <nav className="p-4 flex-1">
+            <ul className="space-y-2">
+              {[
+                { id: 'home', label: 'Home', icon: Home, isLink: true, path: '/' },
+                { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard, isLink: true, path: '/dashboard' },
+                { id: 'social', label: 'Social Tasks', icon: Users },
+                { id: 'daily-spin', label: 'Daily Spin', icon: Star },
+                { id: 'whitepaper', label: 'Whitepaper', icon: FileText },
+                { id: 'referral', label: 'Refer & Earn', icon: UserPlus, isLink: true, path: '/referral' },
+              ].map((item) => {
+                const Icon = item.icon;
+                
+                if (item.isLink) {
+                  return (
+                    <li key={item.id}>
+                      <Link
+                        to={item.path || '/'}
+                        className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-300 ${
+                          item.id === 'referral'
+                            ? 'bg-astro-primary/20 text-astro-primary border border-astro-primary/30'
+                            : 'text-white/70 hover:text-white hover:bg-white/10'
+                        }`}
+                      >
+                        <Icon className="w-5 h-5" />
+                        <span className="font-semibold">{item.label}</span>
+                      </Link>
+                    </li>
+                  );
+                }
+                
+                return (
+                  <li key={item.id}>
+                    <button
+                      onClick={() => handleNavigation(item.id)}
+                      className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-300 ${
+                        activeTab === item.id
+                          ? 'bg-astro-primary/20 text-astro-primary border border-astro-primary/30'
+                          : 'text-white/70 hover:text-white hover:bg-white/10'
+                      }`}
+                    >
+                      <Icon className="w-5 h-5" />
+                      <span className="font-semibold">{item.label}</span>
+                    </button>
+                  </li>
+                );
+              })}
+            </ul>
+          </nav>
+
+          {/* Bottom Section */}
+          <div className="p-4 space-y-4 flex-shrink-0">
+            {/* Referral Section */}
+            {/* <motion.button
+              onClick={() => handleNavigation('referral')}
+              className="w-full flex items-center gap-3 px-4 py-3 rounded-lg bg-gradient-to-r from-astro-accent to-astro-secondary text-white border border-astro-accent/30 hover:bg-astro-accent/20 transition-all"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              <UserPlus className="w-5 h-5" />
+              <span className="font-semibold">Refer & Earn</span>
+            </motion.button> */}
+
+            {/* Account Section */}
+            <button className="w-full flex items-center gap-3 px-4 py-3 rounded-lg bg-astro-accent/20 text-astro-accent border border-astro-accent/30 hover:bg-astro-accent/30 transition-all">
+              <Bot className="w-5 h-5" />
+              <span className="font-semibold">Account</span>
+            </button>
+          </div>
+        </div>
+
+        {/* Mobile Sidebar - Slides in/out */}
         {isSidebarOpen && (
           <div 
             className="fixed inset-0 bg-black/50 z-40 lg:hidden"
             onClick={() => setIsSidebarOpen(false)}
           />
         )}
-
-        {/* Sidebar */}
+        
         <motion.div
           initial={{ x: -300 }}
           animate={{ x: isSidebarOpen ? 0 : -300 }}
-          className={`fixed lg:relative z-50 w-64 bg-astro-panel/95 backdrop-blur-md border-r border-astro-primary/20 h-screen lg:h-auto lg:min-h-screen flex flex-col transition-transform duration-300 ${
-            isSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
-          }`}
+          transition={{ duration: 0.2, ease: "easeOut" }}
+          className={`fixed lg:hidden z-50 w-64 bg-astro-panel/95 backdrop-blur-md border-r border-astro-primary/20 h-screen flex flex-col`}
         >
           {/* Navigation */}
-          <nav className="p-4 pt-8 lg:pt-4 flex-1">
+          <nav className="p-4 flex-1">
             <ul className="space-y-2">
               {[
                 { id: 'home', label: 'Home', icon: Home, isLink: true, path: '/' },
@@ -180,7 +251,10 @@ export default function ReferralPage() {
                 return (
                   <li key={item.id}>
                     <button
-                      onClick={() => handleNavigation(item.id)}
+                      onClick={() => {
+                        handleNavigation(item.id);
+                        setIsSidebarOpen(false);
+                      }}
                       className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-300 ${
                         activeTab === item.id
                           ? 'bg-astro-primary/20 text-astro-primary border border-astro-primary/30'
@@ -200,7 +274,10 @@ export default function ReferralPage() {
           <div className="p-4 space-y-4 flex-shrink-0">
             {/* Referral Section */}
             <motion.button
-              onClick={() => handleNavigation('referral')}
+              onClick={() => {
+                handleNavigation('referral');
+                setIsSidebarOpen(false);
+              }}
               className="w-full flex items-center gap-3 px-4 py-3 rounded-lg bg-gradient-to-r from-astro-accent to-astro-secondary text-white border border-astro-accent/30 hover:bg-astro-accent/20 transition-all"
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}

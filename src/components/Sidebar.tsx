@@ -51,17 +51,12 @@ export default function Sidebar({
       <motion.div
         initial={{ x: -300 }}
         animate={{ x: isSidebarOpen ? 0 : -300 }}
-        className={`fixed lg:relative z-40 w-64 bg-astro-panel/95 backdrop-blur-md border-r border-astro-primary/20 h-screen lg:h-auto lg:min-h-screen flex flex-col transition-transform duration-300 ${
+        transition={{ duration: 0.2, ease: "easeOut" }}
+        className={`fixed lg:relative z-40 w-64 bg-astro-panel/95 backdrop-blur-md border-r border-astro-primary/20 h-screen lg:h-auto lg:min-h-screen flex flex-col ${
           isSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
         }`}
       >
-        {/* Logo */}
-        <div className="p-6 border-b border-astro-primary/20 flex-shrink-0">
-          <div className="flex items-center gap-3">
-            <img src="/logo.jpg" alt="SpinLoot" className="w-8 h-8 rounded-full" />
-            <span className="text-astro-primary font-bold text-xl astro-text">SpinLoot</span>
-          </div>
-        </div>
+
 
         {/* Navigation */}
         <nav className="p-4 pt-8 lg:pt-4 flex-1">
