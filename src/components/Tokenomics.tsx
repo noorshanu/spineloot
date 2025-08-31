@@ -124,6 +124,37 @@ export default function Tokenomics() {
                 </motion.span>
               </motion.div>
             ))}
+            
+            {/* Whitepaper Download Button */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.5, duration: 0.6 }}
+              className="mt-8"
+            >
+              <motion.button
+                onClick={() => {
+                  const link = document.createElement('a');
+                  link.href = '/SpinLoot_Whitepaper.pdf';
+                  link.download = 'SpinLoot_Whitepaper_v1.0.pdf';
+                  document.body.appendChild(link);
+                  link.click();
+                  document.body.removeChild(link);
+                }}
+                className="w-full glass rounded-xl p-4 bg-gradient-to-r from-casino-gold to-casino-red text-white font-bold hover:from-casino-gold/80 hover:to-casino-red/80 transition-all duration-300 flex items-center justify-center gap-3 shadow-glow"
+                whileHover={{ 
+                  scale: 1.02,
+                  boxShadow: "0 0 30px rgba(245, 196, 81, 0.6)"
+                }}
+                whileTap={{ scale: 0.98 }}
+              >
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+                Download Whitepaper PDF
+              </motion.button>
+            </motion.div>
           </div>
         </div>
       </Container>
