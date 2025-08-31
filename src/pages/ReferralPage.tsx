@@ -64,6 +64,15 @@ export default function ReferralPage() {
     }
   }, [user]);
 
+  // Check for pending referral code on mount
+  useEffect(() => {
+    const pendingCode = localStorage.getItem('pendingReferralCode');
+    if (pendingCode) {
+      setManualReferralCode(pendingCode);
+      setValidationMessage('✅ You have a pending referral code: ' + pendingCode);
+    }
+  }, []);
+
   const fetchReferralData = async () => {
     try {
       setLoading(true);
@@ -127,6 +136,43 @@ export default function ReferralPage() {
       // For dashboard tabs, navigate to dashboard with the specific tab
       navigate('/dashboard', { state: { activeTab: tabId } });
     }
+  };
+
+  const handleAddReferralCode = async () => {
+    if (!manualReferralCode.trim()) {
+      setValidationMessage('Please enter a referral code');
+      return;
+    }
+
+    try {
+      setValidatingCode(true);
+      setValidationMessage('');
+
+      const response = await apiService.validateReferralCode(manualReferralCode.trim());
+      
+      if (response.status === 'success' && response.data?.valid) {
+        setValidationMessage('✅ Referral code added successfully! You will get bonus points when you connect your wallet.');
+        // Store the valid code in localStorage for when user connects wallet
+        localStorage.setItem('pendingReferralCode', manualReferralCode.trim());
+        // Hide the manual input after successful addition
+        setTimeout(() => {
+          setShowManualInput(false);
+        }, 3000);
+      } else {
+        setValidationMessage('❌ Invalid referral code. Please check and try again.');
+      }
+    } catch (err) {
+      setValidationMessage('❌ Error adding referral code. Please try again.');
+      console.error('Referral code validation error:', err);
+    } finally {
+      setValidatingCode(false);
+    }
+  };
+
+  const handleClearReferralCode = () => {
+    setManualReferralCode('');
+    setValidationMessage('');
+    localStorage.removeItem('pendingReferralCode');
   };
 
   const shareOptions = [
@@ -475,6 +521,86 @@ export default function ReferralPage() {
                         </button>
                       </div>
                     </div>
+                  </div>
+
+                  {/* Manual Referral Code Input - Only show if user didn't come through referral */}
+                  {!user?.referredBy && (
+                    <div className="mt-6">
+                      <div className="flex items-center justify-between mb-4">
+                        <h3 className="text-lg font-semibold text-astro-primary">Add Friend's Referral Code</h3>
+                        <button
+                          onClick={() => setShowManualInput(!showManualInput)}
+                          className="text-astro-accent hover:text-astro-secondary transition-colors"
+                        >
+                          {showManualInput ? 'Hide' : 'Add Code'}
+                        </button>
+                      </div>
+                    
+                    {showManualInput && (
+                      <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: 'auto' }}
+                        exit={{ opacity: 0, height: 0 }}
+                        className="space-y-4"
+                      >
+                        <div className="p-4 bg-astro-primary/10 rounded-lg border border-astro-primary/20">
+                          <div className="text-sm text-white/70 mb-2">Enter your friend's referral code</div>
+                          <div className="flex items-center gap-3">
+                            <input
+                              type="text"
+                              value={manualReferralCode}
+                              onChange={(e) => setManualReferralCode(e.target.value.toUpperCase())}
+                              placeholder="Enter referral code (e.g., ABC12345)"
+                              className="flex-1 px-4 py-2 bg-astro-panel/50 border border-astro-primary/30 rounded-lg text-white placeholder-white/50 focus:outline-none focus:border-astro-primary"
+                              maxLength={20}
+                            />
+                            <button
+                              onClick={handleAddReferralCode}
+                              disabled={validatingCode || !manualReferralCode.trim()}
+                              className="px-6 py-2 bg-astro-accent text-white rounded-lg hover:bg-astro-accent/80 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                            >
+                              {validatingCode ? (
+                                <>
+                                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                                  Adding...
+                                </>
+                              ) : (
+                                'Add'
+                              )}
+                            </button>
+                            {manualReferralCode && (
+                              <button
+                                onClick={handleClearReferralCode}
+                                className="px-4 py-2 bg-red-500/20 text-red-400 rounded-lg hover:bg-red-500/30 transition-all"
+                                title="Clear referral code"
+                              >
+                                Clear
+                              </button>
+                            )}
+                          </div>
+                          
+                          {validationMessage && (
+                            <motion.div
+                              initial={{ opacity: 0, y: -10 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              className={`mt-3 p-3 rounded-lg text-sm ${
+                                validationMessage.includes('✅') 
+                                  ? 'bg-green-500/20 border border-green-500/30 text-green-400'
+                                  : validationMessage.includes('❌')
+                                  ? 'bg-red-500/20 border border-red-500/30 text-red-400'
+                                  : 'bg-yellow-500/20 border border-yellow-500/30 text-yellow-400'
+                              }`}
+                            >
+                              {validationMessage}
+                            </motion.div>
+                          )}
+                          
+                          <div className="mt-3 text-xs text-white/60">
+                            💡 Tip: Enter your friend's referral code here to validate it. If valid, it will be automatically used when you connect your wallet.
+                          </div>
+                        </div>
+                      </motion.div>
+                    )}
                   </div>
 
                   {/* Share Buttons */}

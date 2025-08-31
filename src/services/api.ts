@@ -253,7 +253,13 @@ class ApiService {
   }
 
   async validateReferralCode(referralCode: string) {
-    return this.request('/referrals/validate', {
+    return this.request<{
+      valid: boolean;
+      referrer?: {
+        displayName?: string;
+        walletAddress: string;
+      };
+    }>('/referrals/validate', {
       method: 'POST',
       body: JSON.stringify({ referralCode }),
     });
