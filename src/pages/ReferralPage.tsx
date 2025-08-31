@@ -22,12 +22,13 @@ import {
   FileText,
   Bot
 } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import ReferredUsersList from '../components/ReferredUsersList';
 import { useUser } from '../contexts/UserContext';
 
 export default function ReferralPage() {
   const { user } = useUser();
+  const navigate = useNavigate();
   const [copied, setCopied] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [activeTab, setActiveTab] = useState('referral');
@@ -55,6 +56,20 @@ export default function ReferralPage() {
       setTimeout(() => setCopied(false), 2000);
     } catch (err) {
       console.error('Failed to copy: ', err);
+    }
+  };
+
+  const handleNavigation = (tabId: string) => {
+    setIsSidebarOpen(false);
+    if (tabId === 'home') {
+      navigate('/');
+    } else if (tabId === 'dashboard') {
+      navigate('/dashboard');
+    } else if (tabId === 'referral') {
+      navigate('/referral');
+    } else {
+      // For dashboard tabs, navigate to dashboard with the specific tab
+      navigate('/dashboard', { state: { activeTab: tabId } });
     }
   };
 
@@ -88,7 +103,7 @@ export default function ReferralPage() {
           <div className="flex items-center gap-4">
             <button
               onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-              className="lg:hidden p-2 rounded-lg bg-astro-primary/20 text-astro-primary hover:bg-astro-primary/30 transition-all"
+              className="lg:hidden p-2 rounded-lg bg-astro-primary/20 text-astro-primary hover:bg-astro-primary/30 transition-all z-50"
             >
               {isSidebarOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
@@ -114,11 +129,19 @@ export default function ReferralPage() {
       </div>
 
       <div className="flex">
+        {/* Mobile Overlay - Must be before sidebar for proper z-index */}
+        {isSidebarOpen && (
+          <div 
+            className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+            onClick={() => setIsSidebarOpen(false)}
+          />
+        )}
+
         {/* Sidebar */}
         <motion.div
           initial={{ x: -300 }}
-          animate={{ x: 0 }}
-          className={`fixed lg:relative z-40 w-64 bg-astro-panel/95 backdrop-blur-md border-r border-astro-primary/20 h-screen lg:h-auto lg:min-h-screen flex flex-col transition-transform duration-300 ${
+          animate={{ x: isSidebarOpen ? 0 : -300 }}
+          className={`fixed lg:relative z-50 w-64 bg-astro-panel/95 backdrop-blur-md border-r border-astro-primary/20 h-screen lg:h-auto lg:min-h-screen flex flex-col transition-transform duration-300 ${
             isSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
           }`}
         >
@@ -157,10 +180,7 @@ export default function ReferralPage() {
                 return (
                   <li key={item.id}>
                     <button
-                      onClick={() => {
-                        setActiveTab(item.id);
-                        setIsSidebarOpen(false);
-                      }}
+                      onClick={() => handleNavigation(item.id)}
                       className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-300 ${
                         activeTab === item.id
                           ? 'bg-astro-primary/20 text-astro-primary border border-astro-primary/30'
@@ -180,7 +200,7 @@ export default function ReferralPage() {
           <div className="p-4 space-y-4 flex-shrink-0">
             {/* Referral Section */}
             <motion.button
-              onClick={() => {}}
+              onClick={() => handleNavigation('referral')}
               className="w-full flex items-center gap-3 px-4 py-3 rounded-lg bg-gradient-to-r from-astro-accent to-astro-secondary text-white border border-astro-accent/30 hover:bg-astro-accent/20 transition-all"
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
@@ -196,14 +216,6 @@ export default function ReferralPage() {
             </button>
           </div>
         </motion.div>
-
-        {/* Mobile Overlay */}
-        {isSidebarOpen && (
-          <div 
-            className="fixed inset-0 bg-black/50 z-30 lg:hidden"
-            onClick={() => setIsSidebarOpen(false)}
-          />
-        )}
 
         {/* Content Area */}
         <div className="flex-1 flex flex-col min-h-screen lg:min-h-0">

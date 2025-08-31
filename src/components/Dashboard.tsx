@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { 
   Trophy, 
@@ -16,17 +16,25 @@ import {
 } from 'lucide-react';
 import DailySpinner from './DailySpinner';
 import { WalletConnectButton } from './WalletConnectButton';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useAirdrop } from '../contexts/AirdropContext';
 import { useUser } from '../contexts/UserContext';
 
 export default function Dashboard() {
   const { airdropData, completeTask, spinDailySpinner, loading, refreshTasks } = useAirdrop();
   const { user } = useUser();
+  const location = useLocation();
   const [activeTab, setActiveTab] = useState('dashboard');
   const [isSpinnerSpinning, setIsSpinnerSpinning] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [actionClickedTasks, setActionClickedTasks] = useState<Set<string>>(new Set());
+
+  // Handle navigation state from other pages
+  useEffect(() => {
+    if (location.state?.activeTab) {
+      setActiveTab(location.state.activeTab);
+    }
+  }, [location.state]);
 
 
   const handleSpinnerReward = async (points: number) => {
@@ -431,7 +439,7 @@ export default function Dashboard() {
           <div className="flex items-center gap-4">
             <button
               onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-              className="lg:hidden p-2 rounded-lg bg-astro-primary/20 text-astro-primary hover:bg-astro-primary/30 transition-all"
+              className="lg:hidden p-2 rounded-lg bg-astro-primary/20 text-astro-primary hover:bg-astro-primary/30 transition-all z-50"
             >
               {isSidebarOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
@@ -447,22 +455,22 @@ export default function Dashboard() {
       </div>
 
       <div className="flex">
+        {/* Mobile Overlay - Must be before sidebar for proper z-index */}
+        {isSidebarOpen && (
+          <div 
+            className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+            onClick={() => setIsSidebarOpen(false)}
+          />
+        )}
+
         {/* Sidebar */}
         <motion.div
           initial={{ x: -300 }}
-          animate={{ x: 0 }}
-          className={`fixed lg:relative z-40 w-64 bg-astro-panel/95 backdrop-blur-md border-r border-astro-primary/20 h-screen lg:h-auto lg:min-h-screen flex flex-col transition-transform duration-300 ${
+          animate={{ x: isSidebarOpen ? 0 : -300 }}
+          className={`fixed lg:relative z-50 w-64 bg-astro-panel/95 backdrop-blur-md border-r border-astro-primary/20 h-screen lg:h-auto lg:min-h-screen flex flex-col transition-transform duration-300 ${
             isSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
           }`}
         >
-          {/* Logo */}
-          {/* <div className="p-6 border-b border-astro-primary/20 flex-shrink-0">
-            <div className="flex items-center gap-3">
-              <img src="/logo.jpg" alt="SpinLoot" className="w-8 h-8 rounded-full" />
-              <span className="text-astro-primary font-bold text-xl astro-text">SpinLoot</span>
-            </div>
-          </div> */}
-
           {/* Navigation */}
           <nav className="p-4 pt-8 lg:pt-4 flex-1">
             <ul className="space-y-2">
@@ -522,14 +530,6 @@ export default function Dashboard() {
             </button>
           </div>
         </motion.div>
-
-        {/* Mobile Overlay */}
-        {isSidebarOpen && (
-          <div 
-            className="fixed inset-0 bg-black/50 z-30 lg:hidden"
-            onClick={() => setIsSidebarOpen(false)}
-          />
-        )}
 
         {/* Main Content */}
         <div className="flex-1 p-4 sm:p-6 lg:p-8 lg:ml-0 min-h-screen lg:min-h-0">
