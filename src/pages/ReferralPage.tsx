@@ -56,7 +56,7 @@ export default function ReferralPage() {
   const [validationMessage, setValidationMessage] = useState('');
   
   // Dynamic URL generation
-  const baseUrl = window.location.origin;
+  const baseUrl = 'https://www.spinloot.co/';
 
   // Fetch referral data
   useEffect(() => {
