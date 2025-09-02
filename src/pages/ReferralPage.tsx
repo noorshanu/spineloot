@@ -182,12 +182,12 @@ export default function ReferralPage() {
     localStorage.removeItem('pendingReferralCode');
   };
 
-  const shareOptions = [
-    { name: 'Twitter', icon: Twitter, color: 'text-blue-400', bg: 'bg-blue-400/10' },
-    { name: 'Facebook', icon: Facebook, color: 'text-blue-600', bg: 'bg-blue-600/10' },
-    { name: 'Instagram', icon: Instagram, color: 'text-pink-500', bg: 'bg-pink-500/10' },
-    { name: 'WhatsApp', icon: MessageCircle, color: 'text-green-500', bg: 'bg-green-500/10' },
-  ];
+  // const shareOptions = [
+  //   { name: 'Twitter', icon: Twitter, color: 'text-blue-400', bg: 'bg-blue-400/10' },
+  //   { name: 'Facebook', icon: Facebook, color: 'text-blue-600', bg: 'bg-blue-600/10' },
+  //   { name: 'Instagram', icon: Instagram, color: 'text-pink-500', bg: 'bg-pink-500/10' },
+  //   { name: 'WhatsApp', icon: MessageCircle, color: 'text-green-500', bg: 'bg-green-500/10' },
+  // ];
 
   const statsCards = [
     { 
@@ -620,38 +620,8 @@ export default function ReferralPage() {
                    </div>
                    )}
 
-                   {/* Share Buttons */}
-                  <div className="mt-6">
-                    <h3 className="text-lg font-semibold text-astro-secondary mb-4">Share on Social Media</h3>
-                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                      {shareOptions.map((option, index) => {
-                        const Icon = option.icon;
-                        return (
-                          <motion.button
-                            key={option.name}
-                            initial={{ opacity: 0, scale: 0.9 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            transition={{ delay: index * 0.1 }}
-                            className={`p-4 rounded-lg ${option.bg} ${option.color} hover:scale-105 transition-all flex items-center justify-center gap-2`}
-                          >
-                            <Icon className="w-5 h-5" />
-                            <span className="font-semibold">{option.name}</span>
-                          </motion.button>
-                        );
-                      })}
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
-
-              {/* Rewards & History Section */}
-              <motion.div
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                className="space-y-6"
-              >
-                {/* Rewards Info */}
-                <div className="astro-glass rounded-2xl p-6 bg-gradient-to-r from-astro-accent/10 to-astro-secondary/10 border border-astro-accent/20">
+                      {/* Rewards Info */}
+                      <div className="astro-glass rounded-2xl p-6 bg-gradient-to-r from-astro-accent/10 to-astro-secondary/10 border border-astro-accent/20">
                   <h2 className="text-xl font-bold text-astro-accent mb-6 flex items-center gap-2">
                     <Award className="w-6 h-6" />
                     Rewards Program
@@ -675,6 +645,16 @@ export default function ReferralPage() {
                     </div>
                   </div>
                 </div>
+                </div>
+              </motion.div>
+
+              {/* Rewards & History Section */}
+              <motion.div
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                className="space-y-6"
+              >
+         
 
                 {/* Referred Users List */}
                 <ReferredUsersList />
