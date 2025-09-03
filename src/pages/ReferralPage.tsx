@@ -327,7 +327,7 @@ export default function ReferralPage() {
                 <div className="text-sm text-white/70 mb-2">Referral Code</div>
                 <div className="flex items-center gap-3 p-4 bg-astro-primary/10 rounded-lg border border-astro-primary/20">
                   <div className="flex-1">
-                    <div className="text-2xl font-mono font-bold text-astro-primary">
+                    <div className="sm:text-2xl text-xl font-mono font-bold text-astro-primary">
                       {loading ? 'Loading...' : (referralData?.referralCode || user?.referralCode || 'Not available')}
                     </div>
                   </div>
@@ -346,12 +346,12 @@ export default function ReferralPage() {
                 <div className="text-sm text-white/70 mb-2">Referral Link</div>
                 <div className="flex items-center gap-3 p-4 bg-astro-secondary/10 rounded-lg border border-astro-secondary/20">
                   <div className="flex-1">
-                    <div className="text-sm font-mono text-astro-secondary break-all">
-                      {loading ? 'Loading...' : `${baseUrl}ref/${referralData?.referralCode || user?.referralCode || ''}`}
+                    <div className="sm:text-sm text-xs font-mono text-astro-secondary break-all">
+                      {loading ? 'Loading...' : `${baseUrl}${referralData?.referralCode || user?.referralCode || ''}`}
                     </div>
                   </div>
                   <button
-                    onClick={() => handleCopy(`${baseUrl}ref/${referralData?.referralCode || user?.referralCode || ''}`, 'link')}
+                    onClick={() => handleCopy(`${baseUrl}${referralData?.referralCode || user?.referralCode || ''}`, 'link')}
                     className="px-4 py-2 bg-astro-secondary text-white rounded-lg hover:bg-astro-secondary/80 transition-all flex items-center gap-2"
                   >
                     {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
