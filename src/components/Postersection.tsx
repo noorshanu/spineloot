@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Twitter, ExternalLink } from 'lucide-react'
 
@@ -9,7 +9,14 @@ interface Poster {
   image: string
 }
 
+interface Partner {
+  id: number
+  image: string
+}
+
 const Postersection: React.FC = () => {
+  const [currentSlide, setCurrentSlide] = useState(0)
+  
   const posters: Poster[] = [
     {
       id: 1,
@@ -30,6 +37,43 @@ const Postersection: React.FC = () => {
       image: "/img3.jpeg"
     }
   ]
+
+  const partners: Partner[] = [
+    { id: 1,  image: "/partner/img4.JPG" },
+    { id: 2,  image: "/partner/img5.JPG" },
+    { id: 3,  image: "/partner/img6.JPG" },
+    { id: 4,  image:  "/partner/img7.JPG" },
+    { id: 5,  image: "/partner/img8.JPG" },
+    { id: 6,  image: "/partner/img9.JPG" },
+    { id: 7,  image: "/partner/img10.JPG" },
+    { id: 8,  image: "/partner/img11.JPG" },
+    { id: 9,  image:  "/partner/img12.JPG" },
+    { id: 10, image: "/partner/img13.JPG" },
+    { id: 11, image: "/partner/img14.JPG" },
+    { id: 12, image: "/partner/img15.JPG" }
+  ]
+
+  const maxSlides = Math.ceil(partners.length / 3)
+
+  const nextSlide = () => {
+    setCurrentSlide(prev => prev < maxSlides - 1 ? prev + 1 : 0)
+  }
+
+  const prevSlide = () => {
+    setCurrentSlide(prev => prev > 0 ? prev - 1 : maxSlides - 1)
+  }
+
+  // Calculate total width for slider
+  const totalWidth = maxSlides * 100
+
+  // Auto-slide every 5 seconds
+  React.useEffect(() => {
+    const interval = setInterval(() => {
+      nextSlide()
+    }, 5000)
+    
+    return () => clearInterval(interval)
+  }, [currentSlide])
 
   return (
     <section className="py-20 bg-gradient-to-b from-black via-purple-900/20 to-black relative overflow-hidden">
@@ -139,6 +183,74 @@ const Postersection: React.FC = () => {
             </motion.div>
           ))}
         </div>
+
+        {/* Our Partners Section */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.4 }}
+          className="mt-16"
+        >
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white mb-12 text-center">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FFD600] to-[#C9A900]">Our</span> Partners
+          </h2>
+
+          {/* Partners Grid - 4 images per row */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+            {partners.map((partner, index) => (
+              <motion.div
+                key={partner.id}
+                initial={{ opacity: 0, scale: 0.8, y: 20 }}
+                whileInView={{ opacity: 1, scale: 1, y: 0 }}
+                transition={{ 
+                  duration: 0.6, 
+                  delay: index * 0.1,
+                  type: "spring",
+                  stiffness: 100
+                }}
+                whileHover={{ 
+                  y: -10, 
+                  scale: 1.05,
+                  transition: { duration: 0.3 }
+                }}
+                className="group relative"
+              >
+                {/* Partner Card */}
+                <div className="relative bg-black/40 backdrop-blur-md rounded-2xl p-4 border border-white/10 hover:border-yellow-400/50 transition-all duration-500 overflow-hidden">
+                  
+                  {/* Glow Effect */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-yellow-400/5 via-transparent to-casino-blue/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                  
+                  {/* Partner Image */}
+                  <div className="relative overflow-hidden rounded-xl">
+                    <motion.div
+                      whileHover={{ scale: 1.05 }}
+                      transition={{ duration: 0.3 }}
+                      className="rounded-xl overflow-hidden"
+                    >
+                      <img 
+                        src={partner.image} 
+                        alt={`Partner ${partner.id}`}
+                        className="w-full h-32 sm:h-40 lg:h-48 object-cover rounded-xl group-hover:scale-110 transition-transform duration-500" 
+                      />
+                      
+                      {/* Overlay */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    </motion.div>
+                  </div>
+
+                  {/* Decorative Elements */}
+                  <div className="absolute top-4 right-4 opacity-20 group-hover:opacity-40 transition-opacity duration-300">
+                    <div className="w-8 h-8 border-2 border-yellow-400 rounded-full"></div>
+                  </div>
+                  <div className="absolute bottom-4 left-4 opacity-20 group-hover:opacity-40 transition-opacity duration-300">
+                    <div className="w-6 h-6 border-2 border-casino-blue rounded-full"></div>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
 
         {/* Bottom CTA */}
         <motion.div
