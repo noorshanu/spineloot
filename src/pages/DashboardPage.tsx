@@ -2,6 +2,9 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Trophy, TrendingUp, Clock, Bot } from 'lucide-react';
 import { useAirdrop } from '../contexts/AirdropContext';
+import { IoIosStarOutline } from "react-icons/io";
+import { FaUserSecret } from "react-icons/fa";
+import { LuFileText } from "react-icons/lu";
 
 const DashboardPage = () => {
   const { airdropData } = useAirdrop();
@@ -141,7 +144,7 @@ const DashboardPage = () => {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            <Users className="w-8 h-8 mx-auto mb-2" />
+            <FaUserSecret className="w-8 h-8 mx-auto mb-2" />
             <span className="font-semibold">Social Tasks</span>
           </motion.button>
           
@@ -150,7 +153,7 @@ const DashboardPage = () => {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            <Star className="w-8 h-8 mx-auto mb-2" />
+            <IoIosStarOutline className="w-8 h-8 mx-auto mb-2" />
             <span className="font-semibold">Daily Spin</span>
           </motion.button>
           
@@ -159,7 +162,7 @@ const DashboardPage = () => {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            <FileText className="w-8 h-8 mx-auto mb-2" />
+            <LuFileText className="w-8 h-8 mx-auto mb-2" />
             <span className="font-semibold">Whitepaper</span>
           </motion.button>
         </div>
