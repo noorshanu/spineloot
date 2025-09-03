@@ -17,6 +17,11 @@ import Cta from './components/Cta'
 import Postersection from './components/Postersection'
 import AirdropPage from './pages/AirdropPage'
 import ReferralPage from './pages/ReferralPage'
+import WhitepaperPage from './pages/WhitepaperPage'
+import SocialTasksPage from './pages/SocialTasksPage'
+import DailySpinPage from './pages/DailySpinPage'
+import DashboardPage from './pages/DashboardPage'
+import DashboardLayout from './components/DashboardLayout'
 import AstroLoader from './components/AstroLoader'
 import AstroLoaderDemo from './components/AstroLoaderDemo'
 import DebugInfo from './components/DebugInfo'
@@ -55,10 +60,15 @@ export function App() {
             <Routes>
               <Route path="/" element={<HomePage />} />
               <Route path="/airdrop" element={<AirdropPage />} />
-              <Route path="/dashboard" element={<AirdropPage />} />
-              <Route path="/referral" element={<ReferralPage />} />
               <Route path="/ref/:referralCode" element={<AirdropPage />} />
               <Route path="/astro-loader-demo" element={<AstroLoaderDemo />} />
+              
+              {/* Dashboard Routes with Layout */}
+              <Route path="/dashboard" element={<DashboardLayout><DashboardPage /></DashboardLayout>} />
+              <Route path="/social" element={<DashboardLayout><SocialTasksPage /></DashboardLayout>} />
+              <Route path="/daily-spin" element={<DashboardLayout><DailySpinPage /></DashboardLayout>} />
+              <Route path="/whitepaper" element={<DashboardLayout><WhitepaperPage /></DashboardLayout>} />
+              <Route path="/referral" element={<DashboardLayout><ReferralPage /></DashboardLayout>} />
             </Routes>
           </Router>
           <DebugInfo />

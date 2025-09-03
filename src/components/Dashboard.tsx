@@ -755,7 +755,7 @@ export default function Dashboard() {
                 { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
                 { id: 'social', label: 'Social Tasks', icon: Users },
                 { id: 'daily-spin', label: 'Daily Spin', icon: Star },
-                { id: 'whitepaper', label: 'Whitepaper', icon: FileText },
+                { id: 'whitepaper', label: 'Whitepaper', icon: FileText, isLink: true, path: '/whitepaper' },
                 { id: 'referral', label: 'Refer & Earn', icon: UserPlus, isLink: true, path: '/referral' },
               ].map((item) => {
                 const Icon = item.icon;
@@ -833,7 +833,7 @@ export default function Dashboard() {
                 { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
                 { id: 'social', label: 'Social Tasks', icon: Users },
                 { id: 'daily-spin', label: 'Daily Spin', icon: Star },
-                { id: 'whitepaper', label: 'Whitepaper', icon: FileText },
+                { id: 'whitepaper', label: 'Whitepaper', icon: FileText, isLink: true, path: '/whitepaper' },
                 { id: 'referral', label: 'Refer & Earn', icon: UserPlus, isLink: true, path: '/referral' },
               ].map((item) => {
                 const Icon = item.icon;

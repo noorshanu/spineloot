@@ -92,10 +92,10 @@ export default function Footer() {
                 </a>
               </li>
               <li>
-                <a href="https://whitehpaper.gitbook.io/spinloot" target="_blank" rel="noopener noreferrer" className="text-white/70 hover:text-astro-primary transition-colors duration-300 flex items-center gap-2 group">
+                <Link to="/whitepaper" className="text-white/70 hover:text-astro-primary transition-colors duration-300 flex items-center gap-2 group">
                   <Zap className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" />
                   Whitepaper
-                </a>
+                </Link>
               </li>
               <li>
                 <a href="https://twitter.com/Spin_loot" target="_blank" rel="noopener noreferrer" className="text-white/70 hover:text-astro-primary transition-colors duration-300 flex items-center gap-2 group">
