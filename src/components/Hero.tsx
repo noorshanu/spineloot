@@ -34,7 +34,7 @@ export default function Hero() {
             {/* Social Media Icons */}
             <div className="mt-8 flex items-center gap-4">
               <motion.a
-                href="https://whitehpaper.gitbook.io/spinloot"
+                href="/whitepaper"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 px-4 py-2 rounded-full bg-astro-panel/50 hover:bg-astro-panel/70 text-white/80 hover:text-white transition-all duration-300 border border-astro-primary/20 hover:border-astro-primary/40 glow-effect"
