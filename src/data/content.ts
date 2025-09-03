@@ -30,10 +30,12 @@ export const GAMEPLAY = {
 }
 
 export const TOKENOMICS = [
-  { label: "Community Airdrop", value: 10 },
-  { label: "Staking Pool", value: 20 },
+  { label: "Team & Advisors", value: 10 },
+ 
+  { label: "Spine Rewards", value: 20 },
   { label: "Liquidity", value: 20 },
-  { label: "Team (18m vest)", value: 15 },
-  { label: "Treasury", value: 15 },
-  { label: "Game Rewards", value: 20 }
+
+  { label: "Partnerships", value: 25 },
+  { label: "Game Rewards", value: 30 },
+  { label: "Community Airdrop", value: 40 }
 ]
