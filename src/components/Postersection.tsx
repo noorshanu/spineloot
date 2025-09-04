@@ -12,6 +12,7 @@ interface Poster {
 interface Partner {
   id: number
   image: string
+  link: string
 }
 
 const Postersection: React.FC = () => {
@@ -39,18 +40,18 @@ const Postersection: React.FC = () => {
   ]
 
   const partners: Partner[] = [
-    { id: 1,  image: "/partner/img4.JPG" },
-    { id: 2,  image: "/partner/img5.JPG" },
-    { id: 3,  image: "/partner/img6.JPG" },
-    { id: 4,  image:  "/partner/img7.JPG" },
-    { id: 5,  image: "/partner/img8.JPG" },
-    { id: 6,  image: "/partner/img9.JPG" },
-    { id: 7,  image: "/partner/img10.JPG" },
-    { id: 8,  image: "/partner/img11.JPG" },
-    { id: 9,  image:  "/partner/img12.JPG" },
-    { id: 10, image: "/partner/img13.JPG" },
-    { id: 11, image: "/partner/img14.JPG" },
-    { id: 12, image: "/partner/img15.JPG" }
+    { id: 1,  image: "/partner/img4.JPG" ,link: "https://x.com/Spin_Loot/status/1960247451790844259?t=emO5Awpvt-dzXolIcb_OLA&s=19"},
+    { id: 2,  image: "/partner/img5.JPG" ,link: "https://x.com/Spin_Loot/status/1959863822380060938?t=_5Xb1vy-Ug2c2gRZh9UIsg&s=19"},
+    { id: 3,  image: "/partner/img6.JPG" ,link: "https://x.com/AtuaAI/status/1959445867334975578?t=d-6l28fqBePZo865O6Qdow&s=19"},
+    { id: 4,  image:  "/partner/img7.JPG" ,link: "https://x.com/Spin_Loot/status/1959230424636617210?t=jG5IJfjX2xU1p5fDiFBg1g&s=19"},
+    { id: 5,  image: "/partner/img8.JPG" ,link: "https://x.com/MajyoGame/status/1958411243326484907?t=hTg_xcWgmv4eGiFInVQblA&s=19"},
+    { id: 6,  image: "/partner/img9.JPG" ,link: "https://x.com/Spin_Loot/status/1958464640783970463?t=WUO4Nj3FVZwviPiWA-bTOQ&s=19"},
+    { id: 7,  image: "/partner/img10.JPG" ,link: "https://x.com/Spin_Loot/status/1958523871813947805?t=LCXT23PZ7prIPX-lduaMIg&s=19"},
+    { id: 8,  image: "/partner/img11.JPG" ,link: "https://x.com/Spin_Loot/status/1958827251652296713?t=Mv6wI4obxLnJUQ2elAbYag&s=1"},
+    { id: 9,  image:  "/partner/img12.JPG" ,link: "https://x.com/Imagen_Network/status/1958829056033792082?t=xC1hKpBLHkCLX1zYmmGvBg&s=19"},
+    { id: 10, image: "/partner/img13.JPG" ,link: "https://x.com/FurGPTs/status/1959091045201060306?t=od4Uv2_B71tqSr3Z8EEE0A&s=19"},
+    { id: 11, image: "/partner/img14.JPG" ,link: "https://x.com/Spin_Loot/status/1959230424636617210?t=00mzQ_P_kH4T3bwgbDnI9Q&s=19"},
+    { id: 12, image: "/partner/img15.JPG" ,link: "https://x.com/Spin_Loot/status/1959177088843534513?t=ln4Q3QW1VGZJzWipGtqa-A&s=19" }
   ]
 
   const maxSlides = Math.ceil(partners.length / 3)
@@ -223,7 +224,7 @@ const Postersection: React.FC = () => {
                   
                   {/* Partner Image */}
                   <div className="relative overflow-hidden rounded-xl">
-                    <motion.div
+                    <motion.a href={partner.link} target="_blank" rel="noopener noreferrer"
                       whileHover={{ scale: 1.05 }}
                       transition={{ duration: 0.3 }}
                       className="rounded-xl overflow-hidden"
@@ -236,7 +237,7 @@ const Postersection: React.FC = () => {
                       
                       {/* Overlay */}
                       <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                    </motion.div>
+                    </motion.a>
                   </div>
 
                   {/* Decorative Elements */}
